@@ -36,7 +36,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             slivers: [
               // Header Section
               SliverAppBar(
-                expandedHeight: 280,
+                expandedHeight: 180,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
                     children: [
@@ -127,17 +127,30 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                           // Progress Bar
                           _buildProgressBar(),
                           const SizedBox(height: 32),
-                          Text(
-                            pagecontroller.currentPage == 1
-                                ? 'Enter Visitor Information'
-                                : pagecontroller.currentPage == 2
-                                ? 'Select Tickets & Payment'
-                                : 'Booking Summary',
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w900,
-                              color: colorScheme.onSurface,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                pagecontroller.currentPage == 1
+                                    ? 'Enter Visitor Information'
+                                    : pagecontroller.currentPage == 2
+                                    ? 'Select Tickets & Payment'
+                                    : 'Booking Summary',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w900,
+                                  color: colorScheme.onSurface,
+                                ),
+                              ),
+                              pagecontroller.currentPage == 2
+                                  ? IconButton(
+                                      onPressed: () {
+                                        pagecontroller.setPage(1);
+                                      },
+                                      icon: Icon(Icons.close),
+                                    )
+                                  : SizedBox(),
+                            ],
                           ),
                           const SizedBox(height: 24),
                           // Visitor Information
@@ -341,7 +354,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        Container(
+        SizedBox(
           height: maxLines == 1 ? 48 : null,
           child: TextField(
             controller: controller,
@@ -399,8 +412,8 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
               _selectedGender = newValue;
             });
           },
-          fillColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.selected)) {
+          fillColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
               return const Color(0xFF2A9D8F);
             }
             return null;

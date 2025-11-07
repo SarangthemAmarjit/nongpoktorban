@@ -297,13 +297,13 @@ class ReceiptPage extends StatelessWidget {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const HomePage(),
-                              ),
-                              (route) => false,
-                            );
+                            // Navigator.pushAndRemoveUntil(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const HomePage(),
+                            //   ),
+                            //   (route) => false,
+                            // );
                           },
                           icon: Icon(
                             Icons.home,
