@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:torbanticketing/view/recieptpage.dart';
+import 'package:torbanticketing/controller/paymentcontroller.dart';
+import 'package:torbanticketing/demopay.dart';
 
 class ParkTicketsPage extends StatefulWidget {
   const ParkTicketsPage({super.key});
@@ -95,6 +96,8 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
     Color borderLight,
     Color borderDark,
   ) {
+    Paymentcontroller gcontroller = Get.find<Paymentcontroller>();
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -278,22 +281,41 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                             width: double.infinity,
                             height: 40,
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 // _showProceedDialog(context);
                                 // Get.find<Pagemanagementcontroller>().setPage(1);
-                                Get.to(
-                                  () => ReceiptPage(
-                                    total: total,
-                                    paymentMethod: 'Credit Card',
-                                    name: 'John Doe',
-                                    address: '123 Main St, Cityville',
+                                Get.to(PayPage());
 
-                                    mobile: '7005191566',
+                                // var paymentres = await gcontroller
+                                //     .initNdpsPayment(
+                                //       email: "assa@gmail.com",
+                                //       number: "3214234356",
+                                //       transId: generateRandomString(12),
+                                //       context: context,
+                                //       amount: "100",
+                                //       address: 'fsdfsdf',
+                                //       name: 'amarjit',
+                                //       clientcodeok: '',
+                                //     );
 
-                                    adults: adultCount,
-                                    children: childCount,
-                                  ),
-                                );
+                                // if (paymentres != null) {
+                                //   Get.to(PaymentFinalPage());
+                                // } else {
+                                //   // context.go('/home/successpage');
+                                // }
+                                // Get.to(
+                                //   () => ReceiptPage(
+                                //     total: total,
+                                //     paymentMethod: 'Credit Card',
+                                //     name: 'John Doe',
+                                //     address: '123 Main St, Cityville',
+
+                                //     mobile: '7005191566',
+
+                                //     adults: adultCount,
+                                //     children: childCount,
+                                //   ),
+                                // );
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF2A9D8F),

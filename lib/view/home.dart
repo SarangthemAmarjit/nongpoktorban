@@ -60,25 +60,25 @@ class HomeContent extends StatelessWidget {
 
     final featureCards = [
       _buildFeatureCard(
-        icon: Icons.park,
+        image: 'assets/images/icons/scenic.webp',
         title: 'Scenic Views',
         description: 'Beautiful riverside walking paths',
         color: const Color.fromARGB(255, 117, 216, 120).withOpacity(0.5),
       ),
       _buildFeatureCard(
-        icon: Icons.family_restroom,
+        image: 'assets/images/icons/family.webp',
         title: 'Family Friendly',
         description: 'Perfect for all age groups',
         color: const Color.fromARGB(255, 113, 167, 211).withOpacity(0.5),
       ),
       _buildFeatureCard(
-        icon: Icons.photo_camera,
+        image: 'assets/images/icons/photographer.webp',
         title: 'Photography',
         description: 'Instagram-worthy spots',
         color: const Color.fromARGB(255, 215, 177, 120).withOpacity(0.5),
       ),
       _buildFeatureCard(
-        icon: Icons.event,
+        image: 'assets/images/icons/calendar.webp',
         title: 'Events & Activities',
         description: 'Regular community programs',
         color: const Color.fromARGB(255, 194, 117, 207).withOpacity(0.5),
@@ -304,7 +304,7 @@ class HomeContent extends StatelessWidget {
   }
 
   Widget _buildFeatureCard({
-    required IconData icon,
+    required String image,
     required String title,
     required String description,
     required Color color,
@@ -333,21 +333,24 @@ class HomeContent extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 50, color: Colors.white),
+            Image.asset(image, height: 50),
             const SizedBox(height: 15),
             Text(
               title,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Color.fromARGB(255, 0, 46, 83),
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
               description,
-              style: const TextStyle(fontSize: 14, color: Colors.white70),
+              style: const TextStyle(
+                fontSize: 14,
+                color: Color.fromARGB(221, 73, 73, 73),
+              ),
               textAlign: TextAlign.center,
             ),
           ],
