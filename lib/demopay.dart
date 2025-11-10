@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter/foundation.dart';
@@ -284,7 +285,7 @@ class _PayPageState extends State<PayPage> {
 
       // Step 2: Send decrypted data to your Node.js server
       final response = await http.post(
-        Uri.parse('http://localhost:3000/Response'),
+        Uri.parse('https://pgtest.atomtech.in/mobilesdk/param'),
         headers: {'content-type': 'application/x-www-form-urlencoded'},
         body: {
           'decryptedData': decryptedData, // Send the decrypted data to server
@@ -432,8 +433,8 @@ class WebHtmlView extends StatefulWidget {
     required this.merchId,
     required this.currentTxnId,
     required this.onPaymentComplete,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<WebHtmlView> createState() => _WebHtmlViewState();
@@ -446,13 +447,14 @@ class _WebHtmlViewState extends State<WebHtmlView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Payment'),
+        title: const Text('fdf'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: InAppWebView(
+        initialSettings: InAppWebViewSettings(safeBrowsingEnabled: false),
         initialData: InAppWebViewInitialData(
           data:
               '''
@@ -486,17 +488,35 @@ class _WebHtmlViewState extends State<WebHtmlView> {
             </html>
           ''',
         ),
+
+        onCreateWindow:
+            (
+              InAppWebViewController controller,
+              CreateWindowAction action,
+            ) async {
+              log('Creating new window for URL: ${action.request.url}');
+              controller.loadUrl(
+                urlRequest: URLRequest(url: action.request.url),
+              );
+              return true;
+            },
         onWebViewCreated: (controller) {
           _webViewController = controller;
         },
-        onLoadStop: (controller, url) async {
+        onLoadStop: (controller, url) {
           String? currentUrl = url?.toString();
+          log('Payment completed with URL: $currentUrl');
           if (currentUrl != null && currentUrl.contains("uat_response")) {
             widget.onPaymentComplete(currentUrl);
             Navigator.of(context).pop();
           }
         },
+        
+        
+
+        onConsoleMessage: (controller, consoleMessage) => log(
+          'Console Message: ${consoleMessage.message}',
       ),
-    );
+    ) );
   }
 }

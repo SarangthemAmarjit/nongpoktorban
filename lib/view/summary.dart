@@ -207,12 +207,12 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                           child: Column(
                             children: [
                               OrderRow(
-                                '${adultCount} x Adult Pass',
+                                '$adultCount x Adult Pass',
                                 '₹${(adultCount * adultPrice).toStringAsFixed(2)}',
                               ),
                               const SizedBox(height: 8),
                               OrderRow(
-                                '${childCount} x Child Pass',
+                                '$childCount x Child Pass',
                                 '₹${(childCount * childPrice).toStringAsFixed(2)}',
                               ),
                               const SizedBox(height: 8),
@@ -466,12 +466,12 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                   child: Column(
                     children: [
                       OrderRow(
-                        '${adultCount} x Adult Pass',
+                        '$adultCount x Adult Pass',
                         '₹${(adultCount * adultPrice).toStringAsFixed(2)}',
                       ),
                       const SizedBox(height: 8),
                       OrderRow(
-                        '${childCount} x Child Pass',
+                        '$childCount x Child Pass',
                         '₹${(childCount * childPrice).toStringAsFixed(2)}',
                       ),
                       const SizedBox(height: 8),
@@ -534,7 +534,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
-                        _showProceedDialog(context);
+                        Get.to(PayPage());
                         // Get.find<Pagemanagementcontroller>().setPage(1);
                         // Get.to(
                         //   () => PaymentPage(
