@@ -31,10 +31,15 @@ class _PayPageState extends State<PayPage> {
   static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
   static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
   static const resHashKey = "KEYRESP123657234";
-  static const merchId = "445842";
+  static const merchId = "317159";
+  // "445842";
   static const merchPass = "Test@123";
   static const prodId = "NSE";
-  final authUrl = "https://caller.atomtech.in/ots/aipay/auth";
+  // final authUrl = "https://caller.atomtech.in/ots/aipay/auth";
+  final authUrl = "https://payment1.atomtech.in/ots/aipay/auth";
+
+  final String returnUrl =
+      "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
 
   String? atomTokenId;
   String currentTxnId = '';
@@ -511,12 +516,10 @@ class _WebHtmlViewState extends State<WebHtmlView> {
             Navigator.of(context).pop();
           }
         },
-        
-        
 
-        onConsoleMessage: (controller, consoleMessage) => log(
-          'Console Message: ${consoleMessage.message}',
+        onConsoleMessage: (controller, consoleMessage) =>
+            log('Console Message: ${consoleMessage.message}'),
       ),
-    ) );
+    );
   }
 }

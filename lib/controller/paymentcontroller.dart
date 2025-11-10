@@ -109,7 +109,7 @@ class Paymentcontroller extends GetxController {
 
   final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
   final String paymentDomainURL =
-      "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
+      "https://caller.atomtech.in/ots/aipay/auth"; // uat
 
   final String returnUrl =
       "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat

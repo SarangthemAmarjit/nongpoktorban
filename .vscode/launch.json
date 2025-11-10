@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "torbanticketing",
+      "request": "launch",
+      "type": "dart",
+          "args": ["--web-port=3000"]
+    },
+    {
+      "name": "torbanticketing (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "torbanticketing (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+
+  ]
+}

@@ -1,5 +1,7 @@
 import 'dart:math';
 
+String baseapi = "http://10.10.1.31:8081/api";
+
 String generateRandomString(int length) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   Random random = Random();
@@ -23,4 +25,4 @@ Map<String, dynamic> paymentmethod = {
   "UP": "Unified Payment Interface",
 };
 
-bool isDebugmode = false;
+bool isDebugmode = true;
