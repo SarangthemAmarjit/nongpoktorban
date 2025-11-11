@@ -140,7 +140,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                                   "merchId": "${gcontroller.login}",
                                                                   "custEmail": "test.user@gmail.com",
                                                                   "custMobile": "8888888888",
-                                                                  "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param",
+                                                                  "returnUrl": "http://localhost:3000/",
                                                                   "userAgent": "mobile_webView"
                                                                 };
                                                                 

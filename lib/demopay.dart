@@ -1,6 +1,5 @@
 // ignore_for_file: constant_identifier_names
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter/foundation.dart';
@@ -31,15 +30,10 @@ class _PayPageState extends State<PayPage> {
   static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
   static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
   static const resHashKey = "KEYRESP123657234";
-  static const merchId = "317159";
-  // "445842";
+  static const merchId = "445842";
   static const merchPass = "Test@123";
   static const prodId = "NSE";
-  // final authUrl = "https://caller.atomtech.in/ots/aipay/auth";
-  final authUrl = "https://payment1.atomtech.in/ots/aipay/auth";
-
-  final String returnUrl =
-      "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
+  final authUrl = "https://caller.atomtech.in/ots/aipay/auth";
 
   String? atomTokenId;
   String currentTxnId = '';
@@ -438,8 +432,8 @@ class WebHtmlView extends StatefulWidget {
     required this.merchId,
     required this.currentTxnId,
     required this.onPaymentComplete,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<WebHtmlView> createState() => _WebHtmlViewState();
@@ -452,14 +446,13 @@ class _WebHtmlViewState extends State<WebHtmlView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('fdf'),
+        title: const Text('Payment'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: InAppWebView(
-        initialSettings: InAppWebViewSettings(safeBrowsingEnabled: false),
         initialData: InAppWebViewInitialData(
           data:
               '''
@@ -483,7 +476,7 @@ class _WebHtmlViewState extends State<WebHtmlView> {
                     "merchId": "${widget.merchId}",
                     "custEmail": "test.user@gmail.com",
                     "custMobile": "8888888888",
-                    "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param"
+                    "returnUrl": "http://localhost:3000/"
                   };
                   new AtomPaynetz(options, 'uat');
                 }
@@ -493,32 +486,16 @@ class _WebHtmlViewState extends State<WebHtmlView> {
             </html>
           ''',
         ),
-
-        onCreateWindow:
-            (
-              InAppWebViewController controller,
-              CreateWindowAction action,
-            ) async {
-              log('Creating new window for URL: ${action.request.url}');
-              controller.loadUrl(
-                urlRequest: URLRequest(url: action.request.url),
-              );
-              return true;
-            },
         onWebViewCreated: (controller) {
           _webViewController = controller;
         },
-        onLoadStop: (controller, url) {
+        onLoadStop: (controller, url) async {
           String? currentUrl = url?.toString();
-          log('Payment completed with URL: $currentUrl');
           if (currentUrl != null && currentUrl.contains("uat_response")) {
             widget.onPaymentComplete(currentUrl);
             Navigator.of(context).pop();
           }
         },
-
-        onConsoleMessage: (controller, consoleMessage) =>
-            log('Console Message: ${consoleMessage.message}'),
       ),
     );
   }

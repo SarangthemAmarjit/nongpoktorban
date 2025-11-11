@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:torbanticketing/config/const.dart';
 import 'package:torbanticketing/controller/paymentcontroller.dart';
-import 'package:torbanticketing/demopay.dart';
 import 'package:torbanticketing/payment/PaymentPage.dart';
 
 class ParkTicketsPage extends StatefulWidget {
@@ -381,6 +380,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
     Color borderLight,
     Color borderDark,
   ) {
+    Paymentcontroller gcontroller = Get.find<Paymentcontroller>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -535,20 +535,23 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                     width: double.infinity,
                     height: 40,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Get.to(PayPage());
-                        // Get.find<Pagemanagementcontroller>().setPage(1);
-                        // Get.to(
-                        //   () => PaymentPage(
-                        //     mobile: '7005191566',
-                        //     gender: '',
-                        //     visitDate: DateTime(2),
-                        //     adults: 1,
-                        //     name: '',
-                        //     address: '',
-                        //     children: 1,
-                        //   ),
-                        // );
+                      onPressed: () async {
+                        var paymentres = await gcontroller.initNdpsPayment(
+                          email: "assa@gmail.com",
+                          number: "3214234356",
+                          transId: generateRandomString(12),
+                          context: context,
+                          amount: "100",
+                          address: 'fsdfsdf',
+                          name: 'amarjit',
+                          clientcodeok: '',
+                        );
+
+                        if (paymentres != null) {
+                          Get.to(PaymentFinalPage());
+                        } else {
+                          // context.go('/home/successpage');
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF2A9D8F),

@@ -41,7 +41,7 @@ class Managementcontroller extends GetxController {
         _pricemodel = data;
         _adultrate = int.parse(data[0].adultPrice);
         _childrate = int.parse(data[0].childPrice);
-        _foreignrate = int.parse(data[0].foreignerPrice);
+
         update();
       } else {
         print('Error ${response.statusCode}: ${response.reasonPhrase}');

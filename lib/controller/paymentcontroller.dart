@@ -71,18 +71,18 @@ class Paymentcontroller extends GetxController {
   ////////
 
   // merchant configuration data
-  final String login = "317159"; //"445842"; //mandatory
+  final String login = "9273"; //"445842"; //mandatory
   final String password = 'Test@123'; //mandatory
   final String prodid = 'NSE'; //mandatory
-  final String requestHashKey = 'KEY123657234'; //mandatory
-  final String responseHashKey = 'KEYRESP123657234'; //mandatory
+  final String requestHashKey = '1b5120f34ab09977b2'; //mandatory
+  final String responseHashKey = '4fdbdb5dccac783ab0'; //mandatory
   final String requestEncryptionKey =
-      'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+      '83D1E1EC3DEE483BB698935F9B312A82'; //mandatory
   final String responseDecryptionKey =
-      '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+      '19DE2650AF672D308C508346BDDE0B32'; //mandatory
   // final String txnid =
   //     'test240223'; // mandatory // this should be unique each time
-  final String clientcode = "NAVIN"; //mandatory
+  final String clientcode = "01950075"; //mandatory
   final String txncurr = "INR"; //mandatory
   final String mccCode = "5499"; //mandatory
   final String merchType = "R"; //mandatory
@@ -102,14 +102,14 @@ class Paymentcontroller extends GetxController {
   final String udf4 = "udf4"; //optional
   final String udf5 = "udf5"; //optional
 
-  static const req_EncKey = 'A4476C2062FFA58980DC8F79EB6A799E';
-  static const req_Salt = 'A4476C2062FFA58980DC8F79EB6A799E';
-  static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
-  static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
+  static const req_EncKey = '83D1E1EC3DEE483BB698935F9B312A82';
+  static const req_Salt = '83D1E1EC3DEE483BB698935F9B312A82';
+  static const res_DecKey = '19DE2650AF672D308C508346BDDE0B32';
+  static const res_Salt = '19DE2650AF672D308C508346BDDE0B32';
 
   final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
   final String paymentDomainURL =
-      "https://caller.atomtech.in/ots/aipay/auth"; // uat
+      "https://paynetzuat.atomtech.in/paynetz/epi/fts"; // uat
 
   final String returnUrl =
       "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
