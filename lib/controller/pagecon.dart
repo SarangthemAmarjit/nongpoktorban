@@ -8,4 +8,9 @@ class Pagemanagementcontroller extends GetxController {
     _currentPage = page;
     update();
   }
+
+  void resetPage() {
+    _currentPage = 1;
+    update();
+  }
 }

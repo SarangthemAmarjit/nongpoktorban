@@ -29,8 +29,6 @@ class ParkTicketingApp extends StatelessWidget {
 }
 
 // Constants
-const double adultPrice = 500.0;
-const double childPrice = 250.0;
 
 // Responsive wrapper widget
 class ResponsiveCenter extends StatelessWidget {

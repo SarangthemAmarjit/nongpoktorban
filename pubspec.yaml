@@ -44,6 +44,8 @@ dependencies:
   flutter_inappwebview: ^6.1.5
   google_fonts: ^6.3.2
   url_strategy: ^0.3.0
+  pdf: ^3.11.3
+  printing: ^5.14.2
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +72,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/icons/
+    - assets/fonts/NotoSans-Regular.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

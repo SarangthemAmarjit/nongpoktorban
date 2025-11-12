@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:torbanticketing/config/const.dart';
 import 'package:torbanticketing/model/pricemodel.dart';
+import 'package:torbanticketing/model/visitordetails.dart';
+import 'package:torbanticketing/view/offlineticket.dart';
 
 class Managementcontroller extends GetxController {
   // Future<void> addPayments(
@@ -14,20 +17,90 @@ class Managementcontroller extends GetxController {
   List<PriceModel> _pricemodel = [];
   List<PriceModel> get pricemodel => _pricemodel;
 
+  bool _isloading = false;
+  bool get isloading => _isloading;
+
+  String _name = '';
+  String _phone = '';
+  String _address = '';
+  String _email = '';
+
+  double _adultcount = 1;
+  double get adultcount => _adultcount;
+  double _childcount = 0;
+  double get childcount => _childcount;
+
   String? onlineAplicant;
   int _adultrate = 0;
   int get adultrate => _adultrate;
   int _childrate = 0;
   int get childrate => _childrate;
 
+  double get subtotal => _adultcount * _adultrate + _childcount * _childrate;
+
+  double get taxesAndFees =>
+      subtotal * 0.0833333333; // 8.333...% => example $7.5 on $90
+  double get totalamount => subtotal + taxesAndFees;
+
+  void incAdult() {
+    _adultcount++;
+    update();
+  }
+
+  void decAdult() {
+    _adultcount = (_adultcount - 1).clamp(0, 999);
+    update();
+  }
+
+  void incChild() {
+    _childcount++;
+    update();
+  }
+
+  void decChild() {
+    _childcount = (_childcount - 1).clamp(0, 999);
+    update();
+  }
+
+  void resetcount() {
+    _adultcount = 1;
+    _childcount = 0;
+    update();
+  }
+
   int _foreignrate = 0;
   int get foreignrate => _foreignrate;
+  VisitorDetails? _visitorDetails;
+  VisitorDetails? get visitorDetails => _visitorDetails;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getticketprices();
+  }
+
+  setfinaldetails() {
+    _visitorDetails = VisitorDetails(
+      adultCount: _adultcount,
+      childCount: _childcount,
+      totalAmount: totalamount,
+      name: _name,
+      phone: _phone,
+      address: _address,
+      email: _email,
+    );
+    update();
+    Get.to(() => OfflineReceiptPage());
+    // registerUser();
+  }
+
+  setVisitorDetails(String name, String phone, String address, String email) {
+    _name = name;
+    _phone = phone;
+    _address = address;
+    _email = email;
+    update();
   }
 
   void getticketprices() async {
@@ -43,6 +116,7 @@ class Managementcontroller extends GetxController {
         _childrate = int.parse(data[0].childPrice);
 
         update();
+        log(_childrate.toString());
       } else {
         print('Error ${response.statusCode}: ${response.reasonPhrase}');
       }
@@ -51,15 +125,9 @@ class Managementcontroller extends GetxController {
     }
   }
 
-  void registerUser({
-    required String name,
-    required String mobileNo,
-    required String address,
-    required String email,
-    required int adultNo,
-    required int? childNo,
-    required int amount,
-  }) async {
+  void registerUser() async {
+    _isloading = true;
+    update();
     try {
       final url = Uri.parse(
         '$baseapi/Registrations',
@@ -68,13 +136,13 @@ class Managementcontroller extends GetxController {
       final headers = {'Content-Type': 'application/json'};
 
       final body = jsonEncode({
-        "name": name,
-        "mobileNo": mobileNo,
-        "address": address,
-        "email": email,
-        "adultNo": adultNo,
-        "childNo": childNo,
-        "amount": (adultNo * _adultrate) + ((childNo ?? 0) * _childrate),
+        "name": _visitorDetails?.name,
+        "mobileNo": _visitorDetails?.phone,
+        "address": _visitorDetails?.address,
+        "email": _visitorDetails?.email,
+        "adultNo": _visitorDetails?.adultCount.toString(),
+        "childNo": _visitorDetails?.childCount.toString(),
+        "amount": _visitorDetails?.totalAmount.toString(),
       });
 
       final response = await http.post(url, headers: headers, body: body);
@@ -85,13 +153,19 @@ class Managementcontroller extends GetxController {
         // Optional: parse model
         // final data = registerModelFromJson(response.body);
         // _registerModel = data;
+        _isloading = false;
         update();
+        Get.to(() => OfflineReceiptPage());
       } else {
+        _isloading = false;
+        update();
         print(
           'Registration Failed (${response.statusCode}): ${response.reasonPhrase}',
         );
       }
     } catch (e) {
+      _isloading = false;
+      update();
       print('Exception: $e');
     }
   }

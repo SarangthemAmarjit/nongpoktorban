@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:torbanticketing/config/responsive.dart';
+import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/pagecon.dart';
 import 'package:torbanticketing/view/summary.dart';
 
@@ -15,6 +16,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
   int _adultTickets = 1;
   int _childTickets = 0;
   String? _selectedGender;
+  final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -245,91 +247,161 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
   }
 
   Widget _buildVisitorInformationformob(ColorScheme colorScheme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildTextField(
-          label: 'Full Name',
-          hintText: 'e.g., Jane Doe',
-          controller: _nameController,
-        ),
-        const SizedBox(height: 16),
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildTextField(
+            label: 'Full Name',
+            hintText: 'Enter Your Name',
+            controller: _nameController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your name';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
 
-        _buildTextField(
-          label: 'Mobile Number',
-          hintText: 'e.g., (123) 456-7890',
-          controller: _phoneController,
-          keyboardType: TextInputType.phone,
-        ),
-        const SizedBox(height: 16),
+          _buildTextField(
+            label: 'Mobile Number',
+            hintText: 'Enter Your Mobile Number',
+            controller: _phoneController,
+            keyboardType: TextInputType.phone,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your mobile number';
+              }
+              if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                return 'Please enter a valid 10-digit mobile number';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
 
-        _buildTextField(
-          label: 'Address',
-          hintText: 'Enter your address',
-          controller: _addressController,
-        ),
-        const SizedBox(height: 16),
+          _buildTextField(
+            label: 'Address',
+            hintText: 'Enter your address',
+            controller: _addressController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your address';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 16),
 
-        _buildTextField(
-          label: 'Email Address',
-          hintText: 'e.g., xyz@gmail.com',
-          controller: _mailaddressController,
-          keyboardType: TextInputType.emailAddress,
-        ),
-      ],
+          _buildTextField(
+            label: 'Email Address',
+            hintText: 'Enter Your Email Address',
+            controller: _mailaddressController,
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your email address';
+              }
+              if (!RegExp(
+                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+              ).hasMatch(value)) {
+                return 'Please enter a valid email address';
+              }
+              return null;
+            },
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildVisitorInformation(ColorScheme colorScheme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Name and Phone
-        Row(
-          children: [
-            Expanded(
-              child: _buildTextField(
-                label: 'Full Name',
-                hintText: 'e.g., Jane Doe',
-                controller: _nameController,
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Name and Phone
+          Row(
+            children: [
+              Expanded(
+                child: _buildTextField(
+                  label: 'Full Name',
+                  hintText: 'Enter Your Name',
+                  controller: _nameController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
+                ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _buildTextField(
-                label: 'Mobile Number',
-                hintText: 'e.g., (123) 456-7890',
-                controller: _phoneController,
-                keyboardType: TextInputType.phone,
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildTextField(
+                  label: 'Mobile Number',
+                  hintText: 'Enter Your Mobile Number',
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your mobile number';
+                    }
+                    if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                      return 'Please enter a valid 10-digit mobile number';
+                    }
+                    return null;
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
+            ],
+          ),
+          const SizedBox(height: 16),
 
-        // Address
-        Row(
-          children: [
-            Expanded(
-              child: _buildTextField(
-                label: 'Address',
-                hintText: 'Enter your address',
-                controller: _addressController,
+          // Address
+          Row(
+            children: [
+              Expanded(
+                child: _buildTextField(
+                  label: 'Address',
+                  hintText: 'Enter your address',
+                  controller: _addressController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your address';
+                    }
+                    return null;
+                  },
+                ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _buildTextField(
-                label: 'Email Address',
-                hintText: 'e.g., xyz@gmail.com',
-                controller: _mailaddressController,
-                keyboardType: TextInputType.emailAddress,
+              const SizedBox(width: 16),
+              Expanded(
+                child: _buildTextField(
+                  label: 'Email Address',
+                  hintText: 'Enter Your Email Address',
+                  controller: _mailaddressController,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email address';
+                    }
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value)) {
+                      return 'Please enter a valid email address';
+                    }
+                    return null;
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-      ],
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
     );
   }
 
@@ -339,6 +411,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
     required TextEditingController controller,
     TextInputType keyboardType = TextInputType.text,
     int maxLines = 1,
+    String? Function(String?)? validator,
   }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -356,11 +429,18 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
         const SizedBox(height: 8),
         SizedBox(
           height: maxLines == 1 ? 48 : null,
-          child: TextField(
+          child: TextFormField(
             controller: controller,
             keyboardType: keyboardType,
             maxLines: maxLines,
+            validator: validator,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
+              hintStyle: TextStyle(
+                color: isDark
+                    ? const Color(0xFF888A8B)
+                    : const Color.fromARGB(255, 186, 190, 194),
+              ),
               hintText: hintText,
               filled: true,
               fillColor: isDark
@@ -587,12 +667,22 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
   }
 
   Widget _buildProceedButton(ColorScheme colorScheme) {
+    Managementcontroller managementcontroller = Get.put(Managementcontroller());
     return SizedBox(
       width: 150,
       height: 50,
       child: ElevatedButton(
         onPressed: () {
-          Get.find<Pagemanagementcontroller>().setPage(2);
+          if (_formKey.currentState!.validate()) {
+            Get.find<Pagemanagementcontroller>().setPage(2);
+            managementcontroller.setVisitorDetails(
+              _nameController.text,
+              _phoneController.text,
+              _addressController.text,
+              _mailaddressController.text,
+            );
+          }
+
           // Get.to(
           //   () => PaymentPage(
           //     mobile: '7005191566',
