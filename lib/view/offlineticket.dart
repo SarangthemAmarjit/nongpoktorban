@@ -297,7 +297,7 @@ class OfflineReceiptPage extends StatelessWidget {
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.roll80,
-        margin: const pw.EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+        margin: const pw.EdgeInsets.symmetric(horizontal: 25),
 
         build: (pw.Context context) {
           return pw.Column(
@@ -308,7 +308,7 @@ class OfflineReceiptPage extends StatelessWidget {
                   textAlign: pw.TextAlign.center,
                   'Kangla Nongpok Torban Park',
                   style: pw.TextStyle(
-                    fontSize: 18,
+                    fontSize: 15,
                     fontWeight: pw.FontWeight.bold,
                   ),
                 ),
@@ -319,9 +319,9 @@ class OfflineReceiptPage extends StatelessWidget {
                   style: pw.TextStyle(fontSize: 12, color: PdfColors.grey700),
                 ),
               ),
-              pw.SizedBox(height: 10),
+              pw.SizedBox(height: 1),
               pw.Divider(thickness: 1),
-              pw.SizedBox(height: 5),
+              pw.SizedBox(height: 1),
               _pdfRow('Receipt No:', receiptNo, ttf),
               _pdfRow(
                 'Date:',
@@ -343,9 +343,9 @@ class OfflineReceiptPage extends StatelessWidget {
                 managementcontroller.visitorDetails?.address ?? '',
                 ttf,
               ),
-              pw.SizedBox(height: 10),
+              pw.SizedBox(height: 1),
               pw.Divider(thickness: 1),
-              pw.SizedBox(height: 10),
+              pw.SizedBox(height: 1),
               _pdfRow(
                 'Adults:',
                 '${managementcontroller.visitorDetails?.adultCount ?? 0} × ₹${managementcontroller.adultrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.adultCount ?? 0) * managementcontroller.adultrate).toStringAsFixed(0)}',
@@ -356,8 +356,8 @@ class OfflineReceiptPage extends StatelessWidget {
                 '${managementcontroller.visitorDetails?.childCount ?? 0} × ₹${managementcontroller.childrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.childCount ?? 0) * managementcontroller.childrate).toStringAsFixed(0)}',
                 ttf,
               ),
-              _pdfRow('Payment Method:', 'Offline Payment', ttf),
-              pw.SizedBox(height: 10),
+              _pdfRow('Payment Mode:', 'Cash', ttf),
+              pw.SizedBox(height: 1),
               pw.Container(
                 padding: const pw.EdgeInsets.all(8),
                 decoration: pw.BoxDecoration(
@@ -370,7 +370,7 @@ class OfflineReceiptPage extends StatelessWidget {
                     pw.Text(
                       'Total Paid:',
                       style: pw.TextStyle(
-                        fontSize: 16,
+                        fontSize: 13,
                         fontWeight: pw.FontWeight.bold,
                       ),
                     ),
@@ -378,7 +378,7 @@ class OfflineReceiptPage extends StatelessWidget {
                       '₹${managementcontroller.totalamount.toStringAsFixed(0)}',
                       style: pw.TextStyle(
                         font: ttf,
-                        fontSize: 16,
+                        fontSize: 13,
                         fontWeight: pw.FontWeight.bold,
                         color: PdfColors.green800,
                       ),
@@ -386,26 +386,26 @@ class OfflineReceiptPage extends StatelessWidget {
                   ],
                 ),
               ),
-              pw.SizedBox(height: 10),
+              pw.SizedBox(height: 3),
               pw.Center(
                 child: pw.Text(
                   textAlign: pw.TextAlign.center,
                   'Please show this receipt at the park entrance',
                   style: pw.TextStyle(
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: pw.FontWeight.bold,
                     color: PdfColors.orange700,
                   ),
                 ),
               ),
-              pw.SizedBox(height: 10),
+              pw.SizedBox(height: 3),
               pw.Padding(
                 padding: const pw.EdgeInsets.only(bottom: 15),
                 child: pw.Center(
                   child: pw.Text(
                     textAlign: pw.TextAlign.center,
                     'Thank you for visiting Kangla Nongpok Torban Park!',
-                    style: pw.TextStyle(fontSize: 10, color: PdfColors.grey700),
+                    style: pw.TextStyle(fontSize: 8, color: PdfColors.grey700),
                   ),
                 ),
               ),
@@ -426,10 +426,11 @@ class OfflineReceiptPage extends StatelessWidget {
         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
         children: [
           pw.Expanded(
-            flex: 2,
+            flex: 3,
             child: pw.Text(
               label,
               style: pw.TextStyle(
+                fontSize: 10,
                 fontWeight: pw.FontWeight.bold,
                 color: PdfColors.grey800,
               ),
@@ -441,7 +442,12 @@ class OfflineReceiptPage extends StatelessWidget {
             child: pw.Text(
               value,
               textAlign: pw.TextAlign.right,
-              style: pw.TextStyle(color: PdfColors.black, font: tt),
+              style: pw.TextStyle(
+                fontSize: 8,
+
+                color: PdfColors.black,
+                font: tt,
+              ),
             ),
           ),
         ],
@@ -526,7 +532,7 @@ class OfflineReceiptPage extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        _buildReceiptRow('Payment Method:', 'Offline Payment', false, true),
+        _buildReceiptRow('Payment Mode:', 'Cash', false, true),
       ],
     );
   }
@@ -575,7 +581,7 @@ class OfflineReceiptPage extends StatelessWidget {
           false,
           false,
         ),
-        _buildReceiptRow('Payment Method:', 'Offline Payment', false, false),
+        _buildReceiptRow('Payment Mode:', 'Cash', false, false),
       ],
     );
   }
