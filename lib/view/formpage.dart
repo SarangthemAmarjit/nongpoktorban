@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:torbanticketing/config/responsive.dart';
+import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/pagecon.dart';
+import 'package:torbanticketing/model/visitordetails.dart';
 import 'package:torbanticketing/view/summary.dart';
 
 class TicketBookingScreen extends StatefulWidget {
@@ -250,14 +252,14 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
       children: [
         _buildTextField(
           label: 'Full Name',
-          hintText: 'e.g., Jane Doe',
+          hintText: 'Enter Your Name',
           controller: _nameController,
         ),
         const SizedBox(height: 16),
 
         _buildTextField(
           label: 'Mobile Number',
-          hintText: 'e.g., (123) 456-7890',
+          hintText: 'Enter Your Mobile Number',
           controller: _phoneController,
           keyboardType: TextInputType.phone,
         ),
@@ -272,7 +274,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
 
         _buildTextField(
           label: 'Email Address',
-          hintText: 'e.g., xyz@gmail.com',
+          hintText: 'Enter Your Email Address',
           controller: _mailaddressController,
           keyboardType: TextInputType.emailAddress,
         ),
@@ -290,7 +292,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             Expanded(
               child: _buildTextField(
                 label: 'Full Name',
-                hintText: 'e.g., Jane Doe',
+                hintText: 'Enter Your Name',
                 controller: _nameController,
               ),
             ),
@@ -298,7 +300,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             Expanded(
               child: _buildTextField(
                 label: 'Mobile Number',
-                hintText: 'e.g., (123) 456-7890',
+                hintText: 'Enter Your Mobile Number',
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
               ),
@@ -321,7 +323,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             Expanded(
               child: _buildTextField(
                 label: 'Email Address',
-                hintText: 'e.g., xyz@gmail.com',
+                hintText: 'Enter Your Email Address',
                 controller: _mailaddressController,
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -361,6 +363,11 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             keyboardType: keyboardType,
             maxLines: maxLines,
             decoration: InputDecoration(
+              hintStyle: TextStyle(
+                color: isDark
+                    ? const Color(0xFF888A8B)
+                    : const Color.fromARGB(255, 186, 190, 194),
+              ),
               hintText: hintText,
               filled: true,
               fillColor: isDark
@@ -587,12 +594,22 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
   }
 
   Widget _buildProceedButton(ColorScheme colorScheme) {
+    Managementcontroller managementcontroller =
+        Get.put(Managementcontroller());
     return SizedBox(
       width: 150,
       height: 50,
       child: ElevatedButton(
         onPressed: () {
           Get.find<Pagemanagementcontroller>().setPage(2);
+          managementcontroller.setVisitorDetails( 
+          
+              _nameController.text,
+               _phoneController.text,
+               _addressController.text,
+              _mailaddressController.text,
+            
+          );
           // Get.to(
           //   () => PaymentPage(
           //     mobile: '7005191566',

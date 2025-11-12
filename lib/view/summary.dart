@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:torbanticketing/config/const.dart';
-import 'package:torbanticketing/controller/paymentcontroller.dart';
-import 'package:torbanticketing/demopay.dart';
-import 'package:torbanticketing/payment/PaymentPage.dart';
+import 'package:torbanticketing/controller/managementcontroller.dart';
+import 'package:torbanticketing/view/offlineticket.dart';
 
 class ParkTicketsPage extends StatefulWidget {
   const ParkTicketsPage({super.key});
@@ -14,8 +12,8 @@ class ParkTicketsPage extends StatefulWidget {
 
 class _ParkTicketsPageState extends State<ParkTicketsPage> {
   // Ticket counts
-  int adultCount = 2;
-  int childCount = 1;
+  int adultCount = 1;
+  int childCount = 0;
   int seniorCount = 0;
 
   // Prices
@@ -98,7 +96,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
     Color borderLight,
     Color borderDark,
   ) {
-    Paymentcontroller gcontroller = Get.find<Paymentcontroller>();
+    Managementcontroller mngcon = Get.find<Managementcontroller>();
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,41 +281,30 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                             width: double.infinity,
                             height: 40,
                             child: ElevatedButton(
-                              onPressed: () async {
+                              onPressed: () {
+                                mngcon.setfinaldetails(adultCount, childCount, total.toInt());
                                 // _showProceedDialog(context);
                                 // Get.find<Pagemanagementcontroller>().setPage(1);
                                 // Get.to(PayPage());
 
-                                var paymentres = await gcontroller
-                                    .initNdpsPayment(
-                                      email: "assa@gmail.com",
-                                      number: "3214234356",
-                                      transId: generateRandomString(12),
-                                      context: context,
-                                      amount: "100",
-                                      address: 'fsdfsdf',
-                                      name: 'amarjit',
-                                      clientcodeok: '',
-                                    );
+                                // var paymentres = await gcontroller
+                                //     .initNdpsPayment(
+                                //       email: "assa@gmail.com",
+                                //       number: "3214234356",
+                                //       transId: generateRandomString(12),
+                                //       context: context,
+                                //       amount: "100",
+                                //       address: 'fsdfsdf',
+                                //       name: 'amarjit',
+                                //       clientcodeok: '',
+                                //     );
 
-                                if (paymentres != null) {
-                                  Get.to(PaymentFinalPage());
-                                } else {
-                                  // context.go('/home/successpage');
-                                }
-                                // Get.to(
-                                //   () => ReceiptPage(
-                                //     total: total,
-                                //     paymentMethod: 'Credit Card',
-                                //     name: 'John Doe',
-                                //     address: '123 Main St, Cityville',
-
-                                //     mobile: '7005191566',
-
-                                //     adults: adultCount,
-                                //     children: childCount,
-                                //   ),
-                                // );
+                                // if (paymentres != null) {
+                                //   Get.to(PaymentFinalPage());
+                                // } else {
+                                //   // context.go('/home/successpage');
+                                // }
+                                Get.to(() => OfflineReceiptPage());
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF2A9D8F),
@@ -331,7 +318,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'Proceed to Payment',
+                                    'Generate Ticket',
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -381,6 +368,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
     Color borderLight,
     Color borderDark,
   ) {
+    Managementcontroller mngcon = Get.find<Managementcontroller>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -536,7 +524,8 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                     height: 40,
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.to(PayPage());
+                        mngcon.setfinaldetails(adultCount, childCount, total.toInt());
+                        // Get.to(PayPage());
                         // Get.find<Pagemanagementcontroller>().setPage(1);
                         // Get.to(
                         //   () => PaymentPage(
@@ -549,6 +538,8 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                         //     children: 1,
                         //   ),
                         // );
+
+                        Get.to(() => OfflineReceiptPage());
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF2A9D8F),
@@ -562,7 +553,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Proceed to Payment',
+                            'Generate Ticket',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,

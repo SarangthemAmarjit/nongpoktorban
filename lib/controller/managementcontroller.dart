@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:torbanticketing/config/const.dart';
 import 'package:torbanticketing/model/pricemodel.dart';
+import 'package:torbanticketing/model/visitordetails.dart';
 
 class Managementcontroller extends GetxController {
   // Future<void> addPayments(
@@ -14,6 +15,19 @@ class Managementcontroller extends GetxController {
   List<PriceModel> _pricemodel = [];
   List<PriceModel> get pricemodel => _pricemodel;
 
+  String _name = '';
+  String _phone = '';
+  String _address = '';
+  String _email = '';
+
+  int _totalamount = 0;
+  int get totalamount => _totalamount;
+
+  int _adultcount = 1;
+  int get adultcount => _adultcount;
+  int _childcount = 0;
+  int get childcount => _childcount;
+
   String? onlineAplicant;
   int _adultrate = 0;
   int get adultrate => _adultrate;
@@ -22,12 +36,31 @@ class Managementcontroller extends GetxController {
 
   int _foreignrate = 0;
   int get foreignrate => _foreignrate;
+ VisitorDetails? _visitorDetails; 
+  VisitorDetails? get visitorDetails => _visitorDetails;
+  
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getticketprices();
+  }
+  setfinaldetails(int  adultcountnum, int childcountnum, int totalamountnum) {
+    _adultcount = adultcountnum;
+    _childcount = childcountnum ;
+    _totalamount = totalamountnum; 
+
+    _visitorDetails = VisitorDetails(adultCount: _adultcount, childCount: _childcount, totalAmount: _totalamount, name: _name, phone: _phone, address: _address, email: _email);
+    update();
+  }
+
+  setVisitorDetails(String name, String phone, String address, String email) {
+   _name = name;
+   _phone = phone; 
+    _address = address;
+    _email = email;
+    update();
   }
 
   void getticketprices() async {
@@ -41,7 +74,7 @@ class Managementcontroller extends GetxController {
         _pricemodel = data;
         _adultrate = int.parse(data[0].adultPrice);
         _childrate = int.parse(data[0].childPrice);
-        _foreignrate = int.parse(data[0].foreignerPrice);
+     
         update();
       } else {
         print('Error ${response.statusCode}: ${response.reasonPhrase}');

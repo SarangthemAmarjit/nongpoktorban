@@ -1,7 +1,10 @@
-// Receipt Page - Web Optimized
+// Receipt Page with PDF Print & Download
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:torbanticketing/view/home.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 import '../main.dart';
 
@@ -16,16 +19,15 @@ class ReceiptPage extends StatelessWidget {
   final String paymentMethod;
 
   const ReceiptPage({
-    Key? key,
+    super.key,
     required this.name,
     required this.mobile,
     required this.address,
-
     required this.adults,
     required this.children,
     required this.total,
     required this.paymentMethod,
-  }) : super(key: key);
+  });
 
   String _generateReceiptNumber() {
     return 'PKT${DateTime.now().millisecondsSinceEpoch.toString().substring(5)}';
@@ -40,7 +42,6 @@ class ReceiptPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
-
       body: ResponsiveCenter(
         maxWidth: isLargeScreen ? 900 : double.infinity,
         child: SingleChildScrollView(
@@ -215,20 +216,11 @@ class ReceiptPage extends StatelessWidget {
                   // Action Buttons
                   Row(
                     children: [
+                      // Download PDF
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: const Text(
-                                  'Receipt download would start here',
-                                ),
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            );
+                          onPressed: () async {
+                            await _generateAndDownloadPdf(context);
                           },
                           icon: Icon(
                             Icons.download,
@@ -253,20 +245,12 @@ class ReceiptPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: isLargeScreen ? 24 : 16),
+
+                      // Print PDF
                       Expanded(
                         child: ElevatedButton.icon(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: const Text(
-                                  'Print dialog would open here',
-                                ),
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            );
+                          onPressed: () async {
+                            await _generateAndPrintPdf(context);
                           },
                           icon: Icon(
                             Icons.print,
@@ -294,16 +278,12 @@ class ReceiptPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: isLargeScreen ? 24 : 16),
+
+                      // Home / Book Another
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            // Navigator.pushAndRemoveUntil(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const HomePage(),
-                            //   ),
-                            //   (route) => false,
-                            // );
+                            Get.toNamed('/');
                           },
                           icon: Icon(
                             Icons.home,
@@ -341,6 +321,153 @@ class ReceiptPage extends StatelessWidget {
     );
   }
 
+  // ---------------- PDF GENERATION ----------------
+
+  Future<void> _generateAndPrintPdf(BuildContext context) async {
+    final pdf = await _buildPdfDocument();
+    await Printing.layoutPdf(onLayout: (format) async => pdf.save());
+  }
+
+  Future<void> _generateAndDownloadPdf(BuildContext context) async {
+    final pdf = await _buildPdfDocument();
+    await Printing.sharePdf(bytes: await pdf.save(), filename: 'receipt.pdf');
+  }
+
+  Future<pw.Document> _buildPdfDocument() async {
+    final pdf = pw.Document();
+    final now = DateTime.now();
+    final receiptNo = _generateReceiptNumber();
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(32),
+        build: (pw.Context context) {
+          return pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Center(
+                child: pw.Text(
+                  'Kangla Nongpok Torban Park',
+                  style: pw.TextStyle(
+                    fontSize: 22,
+                    fontWeight: pw.FontWeight.bold,
+                  ),
+                ),
+              ),
+              pw.Center(
+                child: pw.Text(
+                  'Official Receipt',
+                  style: pw.TextStyle(fontSize: 14, color: PdfColors.grey700),
+                ),
+              ),
+              pw.SizedBox(height: 20),
+              pw.Divider(thickness: 1),
+              pw.SizedBox(height: 10),
+              _pdfRow('Receipt No:', receiptNo),
+              _pdfRow('Date:', DateFormat('dd MMM yyyy, hh:mm a').format(now)),
+              _pdfRow('Name:', name),
+              _pdfRow('Mobile:', mobile),
+              _pdfRow('Address:', address),
+              pw.SizedBox(height: 10),
+              pw.Divider(thickness: 1),
+              pw.SizedBox(height: 10),
+              _pdfRow(
+                'Adults:',
+                '$adults × ₹${adultPrice.toStringAsFixed(0)} = ₹${(adults * adultPrice).toStringAsFixed(0)}',
+              ),
+              _pdfRow(
+                'Children:',
+                '$children × ₹${childPrice.toStringAsFixed(0)} = ₹${(children * childPrice).toStringAsFixed(0)}',
+              ),
+              _pdfRow('Payment Method:', paymentMethod),
+              pw.SizedBox(height: 20),
+              pw.Container(
+                padding: const pw.EdgeInsets.all(12),
+                decoration: pw.BoxDecoration(
+                  borderRadius: pw.BorderRadius.circular(8),
+                  color: PdfColors.green100,
+                ),
+                child: pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text(
+                      'Total Paid:',
+                      style: pw.TextStyle(
+                        fontSize: 16,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.Text(
+                      '₹${total.toStringAsFixed(0)}',
+                      style: pw.TextStyle(
+                        fontSize: 18,
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColors.green800,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              pw.SizedBox(height: 30),
+              pw.Center(
+                child: pw.Text(
+                  'Please show this receipt at the park entrance',
+                  style: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.orange700,
+                  ),
+                ),
+              ),
+              pw.SizedBox(height: 10),
+              pw.Center(
+                child: pw.Text(
+                  'Thank you for visiting Kangla Nongpok Torban Park!',
+                  style: pw.TextStyle(fontSize: 10, color: PdfColors.grey700),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    return pdf;
+  }
+
+  pw.Widget _pdfRow(String label, String value) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.symmetric(vertical: 4),
+      child: pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+        children: [
+          pw.Expanded(
+            flex: 2,
+            child: pw.Text(
+              label,
+              style: pw.TextStyle(
+                fontWeight: pw.FontWeight.bold,
+                color: PdfColors.grey800,
+              ),
+            ),
+          ),
+          pw.SizedBox(width: 8),
+          pw.Expanded(
+            flex: 3,
+            child: pw.Text(
+              value,
+              textAlign: pw.TextAlign.right,
+              style: const pw.TextStyle(color: PdfColors.black),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ---------------- UI BUILD HELPERS ----------------
+
   Widget _buildLargeScreenReceipt(String receiptNo, DateTime now) {
     return Column(
       children: [
@@ -368,8 +495,6 @@ class ReceiptPage extends StatelessWidget {
             Expanded(child: _buildReceiptRow('Mobile:', mobile, false, true)),
           ],
         ),
-        const SizedBox(height: 16),
-
         const SizedBox(height: 16),
         _buildReceiptRow('Address:', address, false, true),
         const Divider(height: 32, thickness: 2),
@@ -413,7 +538,6 @@ class ReceiptPage extends StatelessWidget {
         _buildReceiptRow('Name:', name, false, false),
         _buildReceiptRow('Mobile:', mobile, false, false),
         _buildReceiptRow('Address:', address, false, false),
-
         _buildReceiptRow(
           'Adults:',
           '$adults × ₹${adultPrice.toStringAsFixed(0)} = ₹${(adults * adultPrice).toStringAsFixed(0)}',
