@@ -346,16 +346,20 @@ class OfflineReceiptPage extends StatelessWidget {
               pw.SizedBox(height: 1),
               pw.Divider(thickness: 1),
               pw.SizedBox(height: 1),
-              _pdfRow(
-                'Adults:',
-                '${managementcontroller.visitorDetails?.adultCount ?? 0} × ₹${managementcontroller.adultrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.adultCount ?? 0) * managementcontroller.adultrate).toStringAsFixed(0)}',
-                ttf,
-              ),
-              _pdfRow(
-                'Children:',
-                '${managementcontroller.visitorDetails?.childCount ?? 0} × ₹${managementcontroller.childrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.childCount ?? 0) * managementcontroller.childrate).toStringAsFixed(0)}',
-                ttf,
-              ),
+              managementcontroller.visitorDetails?.adultCount == 0
+                  ? pw.SizedBox()
+                  : _pdfRow(
+                      'Adults:',
+                      '${managementcontroller.visitorDetails?.adultCount ?? 0} × ₹${managementcontroller.adultrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.adultCount ?? 0) * managementcontroller.adultrate).toStringAsFixed(0)}',
+                      ttf,
+                    ),
+              managementcontroller.visitorDetails?.childCount == 0
+                  ? pw.SizedBox()
+                  : _pdfRow(
+                      'Children:',
+                      '${managementcontroller.visitorDetails?.childCount ?? 0} × ₹${managementcontroller.childrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.childCount ?? 0) * managementcontroller.childrate).toStringAsFixed(0)}',
+                      ttf,
+                    ),
               _pdfRow('Payment Mode:', 'Cash', ttf),
               pw.SizedBox(height: 1),
               pw.Container(
@@ -512,23 +516,27 @@ class OfflineReceiptPage extends StatelessWidget {
         const Divider(height: 20, thickness: 2),
         Row(
           children: [
-            Expanded(
-              child: _buildReceiptRow(
-                'Adults:',
-                '${managementcontroller.visitorDetails?.adultCount ?? 0} × ₹${managementcontroller.adultrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.adultCount ?? 0) * managementcontroller.adultrate).toStringAsFixed(0)}',
-                false,
-                true,
-              ),
-            ),
+            managementcontroller.visitorDetails?.adultCount == 0
+                ? SizedBox()
+                : Expanded(
+                    child: _buildReceiptRow(
+                      'Adults:',
+                      '${managementcontroller.visitorDetails?.adultCount ?? 0} × ₹${managementcontroller.adultrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.adultCount ?? 0) * managementcontroller.adultrate).toStringAsFixed(0)}',
+                      false,
+                      true,
+                    ),
+                  ),
             const SizedBox(width: 24),
-            Expanded(
-              child: _buildReceiptRow(
-                'Children:',
-                '${managementcontroller.visitorDetails?.childCount ?? 0} × ₹${managementcontroller.childrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.childCount ?? 0) * managementcontroller.childrate).toStringAsFixed(0)}',
-                false,
-                true,
-              ),
-            ),
+            managementcontroller.visitorDetails?.childCount == 0
+                ? SizedBox()
+                : Expanded(
+                    child: _buildReceiptRow(
+                      'Children:',
+                      '${managementcontroller.visitorDetails?.childCount ?? 0} × ₹${managementcontroller.childrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.childCount ?? 0) * managementcontroller.childrate).toStringAsFixed(0)}',
+                      false,
+                      true,
+                    ),
+                  ),
           ],
         ),
         const SizedBox(height: 16),
@@ -569,18 +577,22 @@ class OfflineReceiptPage extends StatelessWidget {
           false,
           false,
         ),
-        _buildReceiptRow(
-          'Adults:',
-          '${managementcontroller.visitorDetails?.adultCount ?? 0} × ₹${managementcontroller.adultrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.adultCount ?? 0) * managementcontroller.adultrate).toStringAsFixed(0)}',
-          false,
-          false,
-        ),
-        _buildReceiptRow(
-          'Children:',
-          '${managementcontroller.visitorDetails?.childCount ?? 0} × ₹${managementcontroller.childrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.childCount ?? 0) * managementcontroller.childrate).toStringAsFixed(0)}',
-          false,
-          false,
-        ),
+        managementcontroller.visitorDetails?.adultCount == 0
+            ? SizedBox()
+            : _buildReceiptRow(
+                'Adults:',
+                '${managementcontroller.visitorDetails?.adultCount ?? 0} × ₹${managementcontroller.adultrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.adultCount ?? 0) * managementcontroller.adultrate).toStringAsFixed(0)}',
+                false,
+                false,
+              ),
+        managementcontroller.visitorDetails?.childCount == 0
+            ? SizedBox()
+            : _buildReceiptRow(
+                'Children:',
+                '${managementcontroller.visitorDetails?.childCount ?? 0} × ₹${managementcontroller.childrate.toStringAsFixed(0)} = ₹${((managementcontroller.visitorDetails?.childCount ?? 0) * managementcontroller.childrate).toStringAsFixed(0)}',
+                false,
+                false,
+              ),
         _buildReceiptRow('Payment Mode:', 'Cash', false, false),
       ],
     );
