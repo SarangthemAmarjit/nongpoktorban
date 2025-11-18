@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:torbanticketing/config/const.dart';
 import 'package:torbanticketing/controller/managementcontroller.dart';
+import 'package:torbanticketing/controller/paymentcontroller.dart';
+import 'package:torbanticketing/payment/PaymentPage.dart';
 
 class ParkTicketsPage extends StatefulWidget {
   const ParkTicketsPage({super.key});
@@ -73,6 +76,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
     Color borderDark,
   ) {
     Managementcontroller mngcon = Get.find<Managementcontroller>();
+    Paymentcontroller pngcon = Get.find<Paymentcontroller>();
 
     return GetBuilder<Managementcontroller>(
       builder: (_) {
@@ -261,29 +265,29 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                                 width: double.infinity,
                                 height: 40,
                                 child: ElevatedButton(
-                                  onPressed: () {
-                                    mngcon.setfinaldetails();
+                                  onPressed: () async {
+                                    // mngcon.setfinaldetails(); // for offline ticketing
                                     // _showProceedDialog(context);
                                     // Get.find<Pagemanagementcontroller>().setPage(1);
                                     // Get.to(PayPage());
 
-                                    // var paymentres = await gcontroller
-                                    //     .initNdpsPayment(
-                                    //       email: "assa@gmail.com",
-                                    //       number: "3214234356",
-                                    //       transId: generateRandomString(12),
-                                    //       context: context,
-                                    //       amount: "100",
-                                    //       address: 'fsdfsdf',
-                                    //       name: 'amarjit',
-                                    //       clientcodeok: '',
-                                    //     );
+                                    var paymentres = await pngcon
+                                        .initNdpsPayment(
+                                          email: "assa@gmail.com",
+                                          number: "3214234356",
+                                          transId: generateRandomString(12),
+                                          context: context,
+                                          amount: "100",
+                                          address: 'fsdfsdf',
+                                          name: 'amarjit',
+                                          clientcodeok: '',
+                                        );
 
-                                    // if (paymentres != null) {
-                                    //   Get.to(PaymentFinalPage());
-                                    // } else {
-                                    //   // context.go('/home/successpage');
-                                    // }
+                                    if (paymentres != null) {
+                                      Get.to(PaymentFinalPage());
+                                    } else {
+                                      // context.go('/home/successpage');
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF2A9D8F),
@@ -352,6 +356,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
     Color borderDark,
   ) {
     Managementcontroller mngcon = Get.find<Managementcontroller>();
+    Paymentcontroller pngcon = Get.find<Paymentcontroller>();
     return GetBuilder<Managementcontroller>(
       builder: (_) {
         return Column(
@@ -515,8 +520,24 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                         width: double.infinity,
                         height: 40,
                         child: ElevatedButton(
-                          onPressed: () {
-                            mngcon.setfinaldetails();
+                          onPressed: () async {
+                            var paymentres = await pngcon.initNdpsPayment(
+                              email: "assa@gmail.com",
+                              number: "3214234356",
+                              transId: generateRandomString(12),
+                              context: context,
+                              amount: "100",
+                              address: 'fsdfsdf',
+                              name: 'amarjit',
+                              clientcodeok: '',
+                            );
+
+                            if (paymentres != null) {
+                              Get.to(PaymentFinalPage());
+                            } else {
+                              // context.go('/home/successpage');
+                            }
+                            // mngcon.setfinaldetails();
                             // Get.to(PayPage());
                             // Get.find<Pagemanagementcontroller>().setPage(1);
                             // Get.to(

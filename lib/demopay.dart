@@ -30,7 +30,7 @@ class _PayPageState extends State<PayPage> {
   static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
   static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
   static const resHashKey = "KEYRESP123657234";
-  static const merchId = "445842";
+  static const merchId = "317159";
   static const merchPass = "Test@123";
   static const prodId = "NSE";
   final authUrl = "https://caller.atomtech.in/ots/aipay/auth";
@@ -280,6 +280,7 @@ class _PayPageState extends State<PayPage> {
       //debugPrint('Handling payment response with encData: $encData');
 
       final decryptedData = await decrypt(encData);
+      print(decryptedData);
       //debugPrint('Decrypted response data: $decryptedData');
 
       // Step 2: Send decrypted data to your Node.js server
@@ -476,7 +477,7 @@ class _WebHtmlViewState extends State<WebHtmlView> {
                     "merchId": "${widget.merchId}",
                     "custEmail": "test.user@gmail.com",
                     "custMobile": "8888888888",
-                    "returnUrl": "http://localhost:3000/"
+                    "returnUrl": "https://google.com/"
                   };
                   new AtomPaynetz(options, 'uat');
                 }
@@ -488,6 +489,35 @@ class _WebHtmlViewState extends State<WebHtmlView> {
         ),
         onWebViewCreated: (controller) {
           _webViewController = controller;
+        },
+
+        shouldOverrideUrlLoading: (controller, navigationAction) async {
+          final url = navigationAction.request.url.toString();
+
+          print("URL loading: $url");
+
+          // Check for your return URL
+          if (url.contains("http://localhost:3000/")) {
+            // Payment Completed — Extract params
+            Uri uri = Uri.parse(url);
+
+            String? txnId = uri.queryParameters["txnId"];
+            String? status =
+                uri.queryParameters["f_code"]; // Atom uses f_code for status
+
+            print("Transaction ID: $txnId");
+            print("Status: $status");
+
+            // Close WebView and return data
+            // Get.back(result: {
+            //   "txnId": txnId,
+            //   "status": status,
+            // });
+
+            return NavigationActionPolicy.CANCEL;
+          }
+
+          return NavigationActionPolicy.ALLOW;
         },
         onLoadStop: (controller, url) async {
           String? currentUrl = url?.toString();

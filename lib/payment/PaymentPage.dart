@@ -140,8 +140,8 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                                   "merchId": "${gcontroller.login}",
                                                                   "custEmail": "test.user@gmail.com",
                                                                   "custMobile": "8888888888",
-                                                                  "returnUrl": "http://localhost:3000/",
-                                                                  "userAgent": "mobile_webView"
+                                                                  "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param",
+                                                                 
                                                                 };
                                                                 
                                                                 new AtomPaynetz(options, 'uat');
