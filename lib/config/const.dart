@@ -2,6 +2,8 @@ import 'dart:math';
 
 String baseapi = "http://10.10.1.31:8081/api";
 
+const isofflinepay = true;
+
 String generateRandomString(int length) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   Random random = Random();

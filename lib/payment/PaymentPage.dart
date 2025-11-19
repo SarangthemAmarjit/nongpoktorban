@@ -141,6 +141,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                                   "custEmail": "test.user@gmail.com",
                                                                   "custMobile": "8888888888",
                                                                   "returnUrl": "https://pgtest.atomtech.in/mobilesdk/param",
+                                                                     "userAgent": "mobile_webView"
                                                                  
                                                                 };
                                                                 
@@ -232,7 +233,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                     );
                                     await _controller.evaluateJavascript(
                                       source:
-                                          "${"openPay('" + gcontroller.payDetails}')",
+                                          "${"openPay('${gcontroller.payDetails}"}')",
                                     );
 
                                     log('Checking 1 $url');

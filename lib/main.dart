@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:torbanticketing/demopay.dart';
 import 'package:torbanticketing/routes/app_bindings.dart';
-import 'package:torbanticketing/routes/app_pages.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() {
@@ -23,7 +23,8 @@ class ParkTicketingApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       initialBinding: AppBindings(),
-      getPages: AppPages.pages,
+      // getPages: AppPages.pages,
+      home: Home(),
     );
   }
 }

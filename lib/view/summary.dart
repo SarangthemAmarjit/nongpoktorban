@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:torbanticketing/config/const.dart';
 import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/paymentcontroller.dart';
+import 'package:torbanticketing/demopay.dart';
 import 'package:torbanticketing/payment/PaymentPage.dart';
 
 class ParkTicketsPage extends StatefulWidget {
@@ -271,23 +272,23 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                                     // Get.find<Pagemanagementcontroller>().setPage(1);
                                     // Get.to(PayPage());
 
-                                    var paymentres = await pngcon
-                                        .initNdpsPayment(
-                                          email: "assa@gmail.com",
-                                          number: "3214234356",
-                                          transId: generateRandomString(12),
-                                          context: context,
-                                          amount: "100",
-                                          address: 'fsdfsdf',
-                                          name: 'amarjit',
-                                          clientcodeok: '',
-                                        );
+                                    // var paymentres = await pngcon
+                                    //     .initNdpsPayment(
+                                    //       email: "assa@gmail.com",
+                                    //       number: "3214234356",
+                                    //       transId: generateRandomString(12),
+                                    //       context: context,
+                                    //       amount: "100",
+                                    //       address: 'fsdfsdf',
+                                    //       name: 'amarjit',
+                                    //       clientcodeok: '',
+                                    //     );
 
-                                    if (paymentres != null) {
-                                      Get.to(PaymentFinalPage());
-                                    } else {
-                                      // context.go('/home/successpage');
-                                    }
+                                    // if (paymentres != null) {
+                                    //   Get.to(PaymentFinalPage());
+                                    // } else {
+                                    //   // context.go('/home/successpage');
+                                    // }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF2A9D8F),

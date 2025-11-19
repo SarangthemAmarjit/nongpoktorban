@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:torbanticketing/config/const.dart';
 import 'package:torbanticketing/config/responsive.dart';
 import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/pagecon.dart';
@@ -256,7 +257,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             label: 'Full Name',
             hintText: 'Enter Your Name',
             controller: _nameController,
-            validator: (value) {
+            validator:isofflinepay?null: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your name';
               }
@@ -270,7 +271,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             hintText: 'Enter Your Mobile Number',
             controller: _phoneController,
             keyboardType: TextInputType.phone,
-            validator: (value) {
+            validator:isofflinepay?null: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your mobile number';
               }
@@ -286,7 +287,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             label: 'Address',
             hintText: 'Enter your address',
             controller: _addressController,
-            validator: (value) {
+            validator: isofflinepay?null:(value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your address';
               }
@@ -300,7 +301,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             hintText: 'Enter Your Email Address',
             controller: _mailaddressController,
             keyboardType: TextInputType.emailAddress,
-            validator: (value) {
+            validator:isofflinepay?null: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter your email address';
               }
@@ -325,13 +326,14 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
         children: [
           // Name and Phone
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: _buildTextField(
                   label: 'Full Name',
                   hintText: 'Enter Your Name',
                   controller: _nameController,
-                  validator: (value) {
+                  validator:isofflinepay?null: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your name';
                     }
@@ -346,7 +348,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                   hintText: 'Enter Your Mobile Number',
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
-                  validator: (value) {
+                  validator: isofflinepay?null: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your mobile number';
                     }
@@ -369,7 +371,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                   label: 'Address',
                   hintText: 'Enter your address',
                   controller: _addressController,
-                  validator: (value) {
+                  validator:isofflinepay?null: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your address';
                     }
@@ -384,7 +386,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                   hintText: 'Enter Your Email Address',
                   controller: _mailaddressController,
                   keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
+                  validator:isofflinepay?null: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your email address';
                     }
@@ -427,52 +429,47 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        SizedBox(
-          height: maxLines == 1 ? 48 : null,
-          child: TextFormField(
-            controller: controller,
-            keyboardType: keyboardType,
-            maxLines: maxLines,
-            validator: validator,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-              hintStyle: TextStyle(
+        TextFormField(
+          maxLength: label == "Mobile Number" ? 10 : null,
+          controller: controller,
+          keyboardType: keyboardType,
+          maxLines: maxLines,
+          validator: validator,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          decoration: InputDecoration(
+            hintStyle: TextStyle(
+              color: isDark
+                  ? const Color(0xFF888A8B)
+                  : const Color.fromARGB(255, 186, 190, 194),
+            ),
+            hintText: hintText,
+            filled: true,
+            fillColor: isDark
+                ? const Color(0xFF1a1c1d)
+                : const Color(0xFFF8F9FA),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
                 color: isDark
-                    ? const Color(0xFF888A8B)
-                    : const Color.fromARGB(255, 186, 190, 194),
+                    ? const Color(0xFF454749)
+                    : const Color.fromARGB(255, 239, 245, 245),
               ),
-              hintText: hintText,
-              filled: true,
-              fillColor: isDark
-                  ? const Color(0xFF1a1c1d)
-                  : const Color(0xFFF8F9FA),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: isDark
-                      ? const Color(0xFF454749)
-                      : const Color.fromARGB(255, 239, 245, 245),
-                ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: isDark
+                    ? const Color(0xFF454749)
+                    : const Color.fromARGB(255, 212, 212, 211),
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide(
-                  color: isDark
-                      ? const Color(0xFF454749)
-                      : const Color.fromARGB(255, 212, 212, 211),
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(
-                  color: Color(0xFF2A9D8F),
-                  width: 2,
-                ),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Color(0xFF2A9D8F), width: 2),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
             ),
           ),
         ),
