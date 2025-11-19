@@ -1,6 +1,4 @@
 abstract class AppRoutes {
-
-  static const home = '/';
-    static const offlineticket = '/offlineticket';
-
+  static const landing = '/';
+  static const offlineticket = '/offlineticket';
 }

@@ -43,7 +43,8 @@ class Home extends StatelessWidget {
   final String udf4 = "udf4"; //optional
   final String udf5 = "udf5"; //optional
 
-  final String authApiUrl = "https://caller.atomtech.in/ots/aipay/auth"; // uat
+  final String authApiUrl =
+      "https://payment1.atomtech.in/ots/aipay/auth"; // uat
 
   // final String auth_API_url =
   //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod

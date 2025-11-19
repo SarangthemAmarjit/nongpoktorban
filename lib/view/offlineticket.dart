@@ -391,6 +391,18 @@ class OfflineReceiptPage extends StatelessWidget {
                 ),
               ),
               pw.SizedBox(height: 3),
+              pw.BarcodeWidget(
+                barcode: pw.Barcode.code128(),
+                data: receiptNo,
+                width: 300,
+
+                height: 50,
+                drawText: true,
+                textPadding: 2,
+
+                textStyle: pw.TextStyle(fontSize: 12, letterSpacing: 8),
+              ),
+              pw.SizedBox(height: 3),
               pw.Center(
                 child: pw.Text(
                   textAlign: pw.TextAlign.center,

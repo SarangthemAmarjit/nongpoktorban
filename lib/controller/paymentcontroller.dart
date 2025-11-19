@@ -14,6 +14,8 @@ import 'package:http/http.dart' as http;
 import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/model/paymentresponse.dart';
 import 'package:torbanticketing/payment/atom_pay_helper.dart';
+import 'package:torbanticketing/payment/paymentresponse.dart';
+import 'package:torbanticketing/payment/suc.dart';
 import 'package:torbanticketing/widget/receiptpermit.dart';
 
 class Paymentcontroller extends GetxController {
@@ -106,9 +108,10 @@ class Paymentcontroller extends GetxController {
   static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
   static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
 
-  final String paymentd = "https://caller.atomtech.in/ots/aipay/auth"; // uat
+  final String paymentd =
+      "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
   final String paymentDomainURL =
-      "https://caller.atomtech.in/ots/aipay/auth"; // uat
+      "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
   // final String auth_API_url =
   //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
 
@@ -494,6 +497,18 @@ class Paymentcontroller extends GetxController {
         amount: double.tryParse(amount) ?? 100,
         method: paymentmethod,
       );
+      if (status == "SUCCESS") {
+        Get.to(PaymentSuccessPage());
+      } else {
+        Get.to(
+          PaymentResponsePage(
+            status: status == "FAILED"
+                ? PaymentStatus.failed
+                : PaymentStatus.cancelled,
+          ),
+        );
+      }
+
       // await Get.find<Managementcontroller>().addPayments(p, key, context);
     } catch (e) {
       _ispaymentinfosend = false;

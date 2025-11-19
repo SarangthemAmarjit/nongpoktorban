@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:torbanticketing/config/const.dart';
 import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/paymentcontroller.dart';
-import 'package:torbanticketing/demopay.dart';
 import 'package:torbanticketing/payment/PaymentPage.dart';
 
 class ParkTicketsPage extends StatefulWidget {
@@ -267,28 +266,33 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                                 height: 40,
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    // mngcon.setfinaldetails(); // for offline ticketing
+                                    // mngcon
+                                    //     .setfinaldetails(); // for offline ticketing
                                     // _showProceedDialog(context);
                                     // Get.find<Pagemanagementcontroller>().setPage(1);
                                     // Get.to(PayPage());
 
-                                    // var paymentres = await pngcon
-                                    //     .initNdpsPayment(
-                                    //       email: "assa@gmail.com",
-                                    //       number: "3214234356",
-                                    //       transId: generateRandomString(12),
-                                    //       context: context,
-                                    //       amount: "100",
-                                    //       address: 'fsdfsdf',
-                                    //       name: 'amarjit',
-                                    //       clientcodeok: '',
-                                    //     );
+                                    if (isofflinepay) {
+                                      mngcon.setfinaldetails();
+                                    } else {
+                                      var paymentres = await pngcon
+                                          .initNdpsPayment(
+                                            email: "assa@gmail.com",
+                                            number: "3214234356",
+                                            transId: generateRandomString(12),
+                                            context: context,
+                                            amount: "100",
+                                            address: 'fsdfsdf',
+                                            name: 'amarjit',
+                                            clientcodeok: '',
+                                          );
 
-                                    // if (paymentres != null) {
-                                    //   Get.to(PaymentFinalPage());
-                                    // } else {
-                                    //   // context.go('/home/successpage');
-                                    // }
+                                      if (paymentres != null) {
+                                        Get.to(PaymentFinalPage());
+                                      } else {
+                                        // context.go('/home/successpage');
+                                      }
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF2A9D8F),
@@ -304,7 +308,9 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                                       mngcon.isloading
                                           ? SizedBox(height: 30)
                                           : Text(
-                                              'Generate Ticket',
+                                              isofflinepay
+                                                  ? 'Generate Ticket'
+                                                  : "Proceed",
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700,
@@ -522,22 +528,27 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                         height: 40,
                         child: ElevatedButton(
                           onPressed: () async {
-                            var paymentres = await pngcon.initNdpsPayment(
-                              email: "assa@gmail.com",
-                              number: "3214234356",
-                              transId: generateRandomString(12),
-                              context: context,
-                              amount: "100",
-                              address: 'fsdfsdf',
-                              name: 'amarjit',
-                              clientcodeok: '',
-                            );
-
-                            if (paymentres != null) {
-                              Get.to(PaymentFinalPage());
+                            if (isofflinepay) {
+                              mngcon.setfinaldetails();
                             } else {
-                              // context.go('/home/successpage');
+                              var paymentres = await pngcon.initNdpsPayment(
+                                email: "assa@gmail.com",
+                                number: "3214234356",
+                                transId: generateRandomString(12),
+                                context: context,
+                                amount: "100",
+                                address: 'fsdfsdf',
+                                name: 'amarjit',
+                                clientcodeok: '',
+                              );
+
+                              if (paymentres != null) {
+                                Get.to(PaymentFinalPage());
+                              } else {
+                                // context.go('/home/successpage');
+                              }
                             }
+
                             // mngcon.setfinaldetails();
                             // Get.to(PayPage());
                             // Get.find<Pagemanagementcontroller>().setPage(1);
@@ -545,7 +556,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                             //   () => PaymentPage(
                             //     mobile: '7005191566',
                             //     gender: '',
-                            //     visitDate: DateTime(2),
+                            //     visitDate: DateTime(2),aa
                             //     adults: 1,
                             //     name: '',
                             //     address: '',
@@ -567,7 +578,9 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                               mngcon.isloading
                                   ? SizedBox(height: 30)
                                   : Text(
-                                      'Generate Ticket',
+                                      isofflinepay
+                                          ? 'Generate Ticket'
+                                          : "Proceed",
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,

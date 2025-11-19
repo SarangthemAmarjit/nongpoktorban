@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:torbanticketing/demopay.dart';
 import 'package:torbanticketing/routes/app_bindings.dart';
 import 'package:url_strategy/url_strategy.dart';
+
+import 'routes/app_pages.dart';
 
 void main() {
   setPathUrlStrategy();
@@ -17,14 +18,15 @@ class ParkTicketingApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Kangla Nongpok Torban Ticketing',
       theme: ThemeData(
+        fontFamily: 'KulimPark',
         primarySwatch: Colors.green,
         scaffoldBackgroundColor: Colors.grey[50],
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
       initialBinding: AppBindings(),
-      // getPages: AppPages.pages,
-      home: Home(),
+      getPages: AppPages.pages,
+      // home: Home(),
     );
   }
 }
