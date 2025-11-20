@@ -26,15 +26,15 @@ class HomeContent extends StatelessWidget {
       _buildInfoCard(
         icon: Icons.location_on,
         title: 'Location',
-        description: 'Near Sanjenthong Bridge\nImphal River Bank',
+        description: 'PDA COMPLEX NORTH AOC\nImphal West, Manipur - 795001',
         color: const Color(0xFFD32F2F),
       ),
-      _buildInfoCard(
-        icon: Icons.directions_bike,
-        title: 'Bicycle Sharing',
-        description: 'Yaana App Available\nPublic Cycles',
-        color: const Color(0xFFF57C00),
-      ),
+      // _buildInfoCard(
+      //   icon: Icons.directions_bike,
+      //   title: 'Bicycle Sharing',
+      //   description: 'Yaana App Available\nPublic Cycles',
+      //   color: const Color(0xFFF57C00),
+      // ),
     ];
 
     return isMobile

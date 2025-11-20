@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:torbanticketing/controller/pagecon.dart';
 import 'package:torbanticketing/view/aboutus.dart';
-import 'package:torbanticketing/view/contactus.dart';
+import 'package:torbanticketing/view/contactuspage.dart';
 import 'package:torbanticketing/view/home.dart';
 import 'package:torbanticketing/view/privacypage.dart';
 import 'package:torbanticketing/view/refundandpolicy.dart';
@@ -25,7 +25,7 @@ class _MainLayoutState extends State<MainLayout> {
     const HomeContent(),
     TermsAndConditionsPage(),
     const AboutPage(),
-    const ContactPage(),
+    ContactUsPage(),
     // PrivacyPolicyPage(),
     // CancelRefundPolicyPage(),
   ];
@@ -35,27 +35,29 @@ class _MainLayoutState extends State<MainLayout> {
     Pagemanagementcontroller pngcon = Get.put(Pagemanagementcontroller());
     return GetBuilder<Pagemanagementcontroller>(
       builder: (_) {
-        log("Selected Index : " + pngcon.selectedIndex.toString());
+        log("Selected Index : ${pngcon.selectedIndex}");
         return Scaffold(
-          body: Column(
-            children: [
-              _buildTopNavBar(context, pngcon),
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: pngcon.scrollController,
-                  child: Column(
-                    children: [
-                      pngcon.selectedIndex == 4
-                          ? PrivacyPolicyPage()
-                          : pngcon.selectedIndex == 5
-                          ? CancelRefundPolicyPage()
-                          : _pages[pngcon.selectedIndex],
-                      _buildFooter(pngcon),
-                    ],
+          body: SafeArea(
+            child: Column(
+              children: [
+                _buildTopNavBar(context, pngcon),
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: pngcon.scrollController,
+                    child: Column(
+                      children: [
+                        pngcon.selectedIndex == 4
+                            ? PrivacyPolicyPage()
+                            : pngcon.selectedIndex == 5
+                            ? CancelRefundPolicyPage()
+                            : _pages[pngcon.selectedIndex],
+                        _buildFooter(pngcon),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -93,25 +95,28 @@ class _MainLayoutState extends State<MainLayout> {
             // Logo and Title
             Row(
               children: [
-                const Icon(Icons.water, color: Color(0xFF1976D2), size: 36),
-                const SizedBox(width: 12),
+                ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(5),
+                  child: Image.asset('assets/images/logo.webp', height: 45),
+                ),
+                SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      isMobile ? 'Torban' : 'Kangla Nongpok Torban',
+                      'Kangla Nongpok Torban',
                       style: TextStyle(
                         color: const Color(0xFF1976D2),
                         fontWeight: FontWeight.bold,
                         fontSize: isMobile ? 18 : 22,
                       ),
                     ),
-                    if (!isMobile)
-                      Text(
-                        'Imphal Smart City',
-                        style: TextStyle(color: Colors.grey[600], fontSize: 12),
-                      ),
+
+                    Text(
+                      'Imphal Smart City',
+                      style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                    ),
                   ],
                 ),
               ],

@@ -123,7 +123,9 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                       ],
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(24.0),
+                      padding: EdgeInsets.all(
+                        Responsive.isMobile(context) ? 20 : 24.0,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -133,16 +135,22 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                pagecontroller.currentPage == 1
-                                    ? 'Enter Visitor Information'
-                                    : pagecontroller.currentPage == 2
-                                    ? 'Select Tickets & Payment'
-                                    : 'Booking Summary',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w900,
-                                  color: colorScheme.onSurface,
+                              Expanded(
+                                child: Text(
+                                  pagecontroller.currentPage == 1
+                                      ? 'Enter Visitor Information'
+                                      : pagecontroller.currentPage == 2
+                                      ? isofflinepay
+                                            ? "Select your Tickets"
+                                            : 'Select Tickets & Payment'
+                                      : 'Booking Summary',
+                                  style: TextStyle(
+                                    fontSize: Responsive.isMobile(context)
+                                        ? 25
+                                        : 28,
+                                    fontWeight: FontWeight.w900,
+                                    color: colorScheme.onSurface,
+                                  ),
                                 ),
                               ),
                               pagecontroller.currentPage == 2
@@ -257,12 +265,14 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             label: 'Full Name',
             hintText: 'Enter Your Name',
             controller: _nameController,
-            validator:isofflinepay?null: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your name';
-              }
-              return null;
-            },
+            validator: isofflinepay
+                ? null
+                : (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
           ),
           const SizedBox(height: 16),
 
@@ -271,15 +281,17 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             hintText: 'Enter Your Mobile Number',
             controller: _phoneController,
             keyboardType: TextInputType.phone,
-            validator:isofflinepay?null: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your mobile number';
-              }
-              if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                return 'Please enter a valid 10-digit mobile number';
-              }
-              return null;
-            },
+            validator: isofflinepay
+                ? null
+                : (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your mobile number';
+                    }
+                    if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                      return 'Please enter a valid 10-digit mobile number';
+                    }
+                    return null;
+                  },
           ),
           const SizedBox(height: 16),
 
@@ -287,12 +299,14 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             label: 'Address',
             hintText: 'Enter your address',
             controller: _addressController,
-            validator: isofflinepay?null:(value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your address';
-              }
-              return null;
-            },
+            validator: isofflinepay
+                ? null
+                : (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your address';
+                    }
+                    return null;
+                  },
           ),
           const SizedBox(height: 16),
 
@@ -301,17 +315,19 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             hintText: 'Enter Your Email Address',
             controller: _mailaddressController,
             keyboardType: TextInputType.emailAddress,
-            validator:isofflinepay?null: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email address';
-              }
-              if (!RegExp(
-                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-              ).hasMatch(value)) {
-                return 'Please enter a valid email address';
-              }
-              return null;
-            },
+            validator: isofflinepay
+                ? null
+                : (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email address';
+                    }
+                    if (!RegExp(
+                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                    ).hasMatch(value)) {
+                      return 'Please enter a valid email address';
+                    }
+                    return null;
+                  },
           ),
         ],
       ),
@@ -333,12 +349,14 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                   label: 'Full Name',
                   hintText: 'Enter Your Name',
                   controller: _nameController,
-                  validator:isofflinepay?null: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
-                    }
-                    return null;
-                  },
+                  validator: isofflinepay
+                      ? null
+                      : (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your name';
+                          }
+                          return null;
+                        },
                 ),
               ),
               const SizedBox(width: 16),
@@ -348,15 +366,17 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                   hintText: 'Enter Your Mobile Number',
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
-                  validator: isofflinepay?null: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your mobile number';
-                    }
-                    if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-                      return 'Please enter a valid 10-digit mobile number';
-                    }
-                    return null;
-                  },
+                  validator: isofflinepay
+                      ? null
+                      : (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your mobile number';
+                          }
+                          if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                            return 'Please enter a valid 10-digit mobile number';
+                          }
+                          return null;
+                        },
                 ),
               ),
             ],
@@ -371,12 +391,14 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                   label: 'Address',
                   hintText: 'Enter your address',
                   controller: _addressController,
-                  validator:isofflinepay?null: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your address';
-                    }
-                    return null;
-                  },
+                  validator: isofflinepay
+                      ? null
+                      : (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your address';
+                          }
+                          return null;
+                        },
                 ),
               ),
               const SizedBox(width: 16),
@@ -386,17 +408,19 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                   hintText: 'Enter Your Email Address',
                   controller: _mailaddressController,
                   keyboardType: TextInputType.emailAddress,
-                  validator:isofflinepay?null: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your email address';
-                    }
-                    if (!RegExp(
-                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                    ).hasMatch(value)) {
-                      return 'Please enter a valid email address';
-                    }
-                    return null;
-                  },
+                  validator: isofflinepay
+                      ? null
+                      : (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email address';
+                          }
+                          if (!RegExp(
+                            r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                          ).hasMatch(value)) {
+                            return 'Please enter a valid email address';
+                          }
+                          return null;
+                        },
                 ),
               ),
             ],

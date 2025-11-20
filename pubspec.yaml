@@ -46,6 +46,7 @@ dependencies:
   url_strategy: ^0.3.0
   pdf: ^3.11.3
   printing: ^5.14.2
+  syncfusion_flutter_pdfviewer: ^31.2.12
 
 dev_dependencies:
   flutter_test:

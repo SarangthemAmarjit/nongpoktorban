@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:torbanticketing/config/const.dart';
+import 'package:torbanticketing/config/responsive.dart';
 import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/paymentcontroller.dart';
 import 'package:torbanticketing/payment/PaymentPage.dart';
@@ -35,7 +36,11 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
         final maxWidth = constraints.maxWidth;
         final isWide = maxWidth >= 1000;
         final pagePadding = EdgeInsets.symmetric(
-          horizontal: isWide ? maxWidth * 0.06 : 16,
+          horizontal: isWide
+              ? maxWidth * 0.06
+              : Responsive.isMobile(context)
+              ? 5
+              : 16,
           vertical: 24,
         );
 
@@ -98,7 +103,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                     icon: Icons.person,
                     title: 'Adult Pass',
                     subtitle:
-                        'Ages 13-64. Price: ₹${mngcon.adultrate.toStringAsFixed(2)}',
+                        'Ages 13-64. \nPrice: ₹${mngcon.adultrate.toStringAsFixed(2)}',
                     initialCount: mngcon.adultcount.toInt(),
                     onInc: mngcon.incAdult,
                     onDec: mngcon.decAdult,
@@ -113,7 +118,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                     icon: Icons.child_care,
                     title: 'Child Pass',
                     subtitle:
-                        'Ages 3-12, under 3 are free. Price: ₹${mngcon.childrate.toStringAsFixed(2)}',
+                        'Ages 3-12. \nPrice: ₹${mngcon.childrate.toStringAsFixed(2)}',
                     initialCount: mngcon.childcount.toInt(),
                     onInc: mngcon.incChild,
                     onDec: mngcon.decChild,
@@ -372,7 +377,8 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
             TicketCard(
               icon: Icons.person,
               title: 'Adult Pass',
-              subtitle: 'Ages 13-64. Price: ₹40.00',
+              subtitle:
+                  'Ages 13-64. \nPrice: ₹${mngcon.adultrate.toStringAsFixed(2)}',
               initialCount: mngcon.adultcount.toInt(),
               onInc: mngcon.incAdult,
               onDec: mngcon.decAdult,
@@ -386,7 +392,8 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
             TicketCard(
               icon: Icons.child_care,
               title: 'Child Pass',
-              subtitle: 'Ages 3-12, under 3 are free. Price: ₹20.00',
+              subtitle:
+                  'Ages 3-12. \nPrice: ₹${mngcon.childrate.toStringAsFixed(2)}',
               initialCount: mngcon.childcount.toInt(),
               onInc: mngcon.incChild,
               onDec: mngcon.decChild,

@@ -176,11 +176,24 @@ class ContactPage extends StatelessWidget {
                                 );
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF1976D2),
+                                backgroundColor: const Color.fromARGB(
+                                  255,
+                                  175,
+                                  226,
+                                  172,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    10,
+                                  ),
+                                ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 "Send Message",
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                           ),

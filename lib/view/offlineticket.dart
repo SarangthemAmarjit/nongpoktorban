@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import 'package:torbanticketing/config/const.dart';
 import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/pagecon.dart';
 
@@ -62,6 +63,7 @@ class OfflineReceiptPage extends StatelessWidget {
                       ),
                       SizedBox(height: isLargeScreen ? 16 : 12),
                       Text(
+                        textAlign: TextAlign.center,
                         'Kangla Nongpok Torban Park',
                         style: TextStyle(
                           fontSize: isLargeScreen ? 32 : 24,
@@ -168,33 +170,37 @@ class OfflineReceiptPage extends StatelessWidget {
                 Row(
                   children: [
                     // Download PDF
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () async {
-                          await _generateAndDownloadPdf(context);
-                        },
-                        icon: Icon(
-                          Icons.download,
-                          size: isLargeScreen ? 24 : 20,
-                        ),
-                        label: Text(
-                          'Download',
-                          style: TextStyle(fontSize: isLargeScreen ? 18 : 16),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                            vertical: isLargeScreen ? 20 : 16,
+                    iskiosk || isofflinepay
+                        ? SizedBox()
+                        : Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: () async {
+                                await _generateAndDownloadPdf(context);
+                              },
+                              icon: Icon(
+                                Icons.download,
+                                size: isLargeScreen ? 24 : 20,
+                              ),
+                              label: Text(
+                                'Download',
+                                style: TextStyle(
+                                  fontSize: isLargeScreen ? 18 : 16,
+                                ),
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: isLargeScreen ? 20 : 16,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                side: const BorderSide(
+                                  color: Color(0xFF2196F3),
+                                  width: 2,
+                                ),
+                              ),
+                            ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          side: const BorderSide(
-                            color: Color(0xFF2196F3),
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                    ),
                     SizedBox(width: isLargeScreen ? 24 : 16),
 
                     // Print PDF
