@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 String baseapi = "https://imphalsmartcity.in/api";
 
-const isofflinepay = false;
+const isofflinepay = true;
 const iskiosk = true;
 
 String generateReceiptNumber() {

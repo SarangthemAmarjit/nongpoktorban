@@ -198,29 +198,64 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                 },
                                 shouldOverrideUrlLoading:
                                     (controller, navigationAction) async {
-                                      String url = navigationAction.request.url
-                                          .toString();
-                                      var uri = navigationAction.request.url!;
-                                      if (url.startsWith("upi://")) {
-                                        debugPrint("upi url started loading");
+                                      final uri = navigationAction.request.url!;
+                                      final url = uri.toString();
+
+                                      // Detect UPI Deep Links
+                                      if (url.startsWith("upi://") ||
+                                          url.startsWith("tez://") ||
+                                          url.startsWith("phonepe://") ||
+                                          url.startsWith("paytm://")) {
+                                        debugPrint(
+                                          "UPI deep link detected: $url",
+                                        );
+
                                         try {
-                                          await launchUrl(uri);
-                                        } catch (e) {
-                                          _closeWebView(
-                                            callback: () {},
-                                            context: context,
-                                            transactionResult:
-                                                "Transaction Status = cannot open UPI applications",
-                                            txid: '',
-                                            transstatus: 0,
-                                            paymentname: 'NA',
-                                            totalamount: '',
+                                          final launched = await launchUrl(
+                                            uri,
+                                            mode: LaunchMode
+                                                .externalApplication, // IMPORTANT
                                           );
 
-                                          throw 'custom error for UPI Intent';
+                                          if (!launched) {
+                                            throw "Unable to open UPI app";
+                                          }
+                                        } catch (e) {
+                                          debugPrint("UPI ERROR: $e");
+
+                                          _closeWebView(
+                                            callback: () async {
+                                              await gcontroller
+                                                  .updatepaymentremark(
+                                                    context: context,
+                                                    id: mngcon.payresModel!.id,
+                                                    amount: mngcon
+                                                        .payresModel!
+                                                        .totalAmount,
+                                                    regId: mngcon
+                                                        .registerModel!
+                                                        .id,
+                                                    transactionid:
+                                                        gcontroller.transacid,
+                                                    paymentmethod: 'upi',
+                                                    status: 'FAILED',
+                                                  );
+                                            },
+                                            context: context,
+                                            transactionResult:
+                                                'UPI App Cannot Open',
+                                            txid: gcontroller.transacid,
+                                            transstatus: 500,
+                                            paymentname: 'upi',
+                                            totalamount:
+                                                mngcon.payresModel!.totalAmount,
+                                          );
                                         }
+
                                         return NavigationActionPolicy.CANCEL;
                                       }
+
+                                      // Allow all other normal URLs
                                       return NavigationActionPolicy.ALLOW;
                                     },
 
@@ -370,6 +405,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                     _closeWebView(
                                       callback: () async {
                                         await gcontroller.updatepaymentremark(
+                                          context: context,
                                           id: mngcon.payresModel!.id,
                                           amount: totalamount,
                                           regId: mngcon.registerModel!.id,

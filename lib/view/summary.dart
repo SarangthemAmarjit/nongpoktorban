@@ -280,7 +280,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                                         // Get.to(PayPage());
 
                                         if (isofflinepay) {
-                                          mngcon.setfinaldetails();
+                                          mngcon.setfinaldetails(context);
                                         } else {
                                           var paymentres = await pngcon
                                               .initNdpsPayment(
@@ -558,7 +558,7 @@ class _ParkTicketsPageState extends State<ParkTicketsPage> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 if (isofflinepay) {
-                                  mngcon.setfinaldetails();
+                                  mngcon.setfinaldetails(context);
                                 } else {
                                   mngcon.registerUser(
                                     clientcodeok: '',

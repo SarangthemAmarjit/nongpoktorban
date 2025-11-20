@@ -478,6 +478,7 @@ class Paymentcontroller extends GetxController {
   }
 
   updatepaymentremark({
+    required BuildContext context,
     required int id,
     required String transactionid,
     required String status,
@@ -498,7 +499,7 @@ class Paymentcontroller extends GetxController {
         paymentDate: DateTime.now(),
       );
       if (status == "SUCCESS") {
-        Get.find<Managementcontroller>().setfinaldetails();
+        Get.find<Managementcontroller>().setfinaldetails(context);
       } else {
         Get.to(
           PaymentResponsePage(

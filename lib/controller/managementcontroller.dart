@@ -80,7 +80,7 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  int _foreignrate = 0;
+  final int _foreignrate = 0;
   int get foreignrate => _foreignrate;
   VisitorDetails? _visitorDetails;
   VisitorDetails? get visitorDetails => _visitorDetails;
@@ -92,7 +92,7 @@ class Managementcontroller extends GetxController {
     getticketprices();
   }
 
-  setfinaldetails() {
+  setfinaldetails(BuildContext context) {
     _visitorDetails = VisitorDetails(
       adultCount: _adultcount,
       childCount: _childcount,
@@ -103,9 +103,11 @@ class Managementcontroller extends GetxController {
       email: _email,
     );
     update();
-    Get.to(() => OfflineReceiptPage());
+
     if (isofflinepay) {
-      var data = registerUserforcounter();
+      registerUserforcounter(context);
+    } else {
+      Get.to(() => OfflineReceiptPage());
     }
   }
 
@@ -118,7 +120,7 @@ class Managementcontroller extends GetxController {
     update();
   }
 
-  void registerUserforcounter() async {
+  void registerUserforcounter(BuildContext context) async {
     _isloading = true;
     update();
     try {
@@ -151,10 +153,11 @@ class Managementcontroller extends GetxController {
 
         addpaymentforoffline();
 
-        // Get.to(() => OfflineReceiptPage());
+        Get.to(() => OfflineReceiptPage());
       } else {
         _isloading = false;
         update();
+        showErrorDialog(context,'Registration Failed');
         print(
           'Registration Failed (${response.statusCode}): ${response.reasonPhrase}',
         );
@@ -162,9 +165,47 @@ class Managementcontroller extends GetxController {
     } catch (e) {
       _isloading = false;
       update();
+      showErrorDialog(context,'Registration Failed');
       print('Exception: $e');
     }
   }
+
+void showErrorDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: Row(
+          children: [
+            Icon(Icons.error, color: Colors.red, size: 28),
+            SizedBox(width: 8),
+            Text("Failed"),
+          ],
+        ),
+        content: Text(
+          message,
+          style: TextStyle(fontSize: 16),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "Retry",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
 
   void getticketprices() async {
     try {
