@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:torbanticketing/config/responsive.dart';
 import 'package:torbanticketing/widget/custombutton.dart';
+import 'package:torbanticketing/widget/textfield.dart';
 
 class ContactUsPage extends StatelessWidget {
   ContactUsPage({super.key});
   int rating = 5;
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _reviewController = TextEditingController();
+  final _numberController = TextEditingController();
+  final _mailController = TextEditingController();
+  final _messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -100,24 +103,6 @@ class ContactUsPage extends StatelessWidget {
     );
   }
 
-  Widget _contactIntroText() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text(
-          "We value your feedback and are always here to assist you. Feel free to share your experience with Yumsharol Consultancy using the review form, or contact us directly using the details provided",
-          style: TextStyle(fontSize: 15, height: 1.5),
-        ),
-        SizedBox(height: 30),
-        Text(
-          "Leave a Review",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 16),
-      ],
-    );
-  }
-
   // Widget _buildForm() {
   //   return Column(
   //     children: [
@@ -151,8 +136,10 @@ class ContactUsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Name Field
-              _customInput(
-                hint: 'Enter Your Name',
+              buildTextField(
+                label: 'Name',
+
+                hintText: 'Enter Your Name',
                 controller: _nameController,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -162,9 +149,10 @@ class ContactUsPage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20),
-              _customInput(
-                hint: 'Enter Your Email',
-                controller: _nameController,
+              buildTextField(
+                label: 'Email',
+                hintText: 'Enter Your Email',
+                controller: _mailController,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Email is required';
@@ -176,9 +164,10 @@ class ContactUsPage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20),
-              _customInput(
-                hint: 'Enter Your Phone Number',
-                controller: _nameController,
+              buildTextField(
+                label: 'Phone Number',
+                hintText: 'Enter Your Phone Number',
+                controller: _numberController,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Phone number is required';
@@ -194,11 +183,12 @@ class ContactUsPage extends StatelessWidget {
               // Star Rating
 
               // Review Field
-              _customInput(
-                hint: 'Write your Message...',
-                height: 150,
+              buildTextField(
+                label: 'Message',
+                hintText: 'Write your Message...',
+
                 maxLines: 6,
-                controller: _reviewController,
+                controller: _messageController,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Message is required';

@@ -5,6 +5,7 @@ import 'package:torbanticketing/config/responsive.dart';
 import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/pagecon.dart';
 import 'package:torbanticketing/view/summary.dart';
+import 'package:torbanticketing/widget/textfield.dart';
 
 class TicketBookingScreen extends StatefulWidget {
   const TicketBookingScreen({super.key});
@@ -261,7 +262,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildTextField(
+          buildTextField(
             label: 'Full Name',
             hintText: 'Enter Your Name',
             controller: _nameController,
@@ -276,7 +277,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           ),
           const SizedBox(height: 16),
 
-          _buildTextField(
+          buildTextField(
             label: 'Mobile Number',
             hintText: 'Enter Your Mobile Number',
             controller: _phoneController,
@@ -295,7 +296,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           ),
           const SizedBox(height: 16),
 
-          _buildTextField(
+          buildTextField(
             label: 'Address',
             hintText: 'Enter your address',
             controller: _addressController,
@@ -310,7 +311,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           ),
           const SizedBox(height: 16),
 
-          _buildTextField(
+          buildTextField(
             label: 'Email Address',
             hintText: 'Enter Your Email Address',
             controller: _mailaddressController,
@@ -345,7 +346,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: _buildTextField(
+                child: buildTextField(
                   label: 'Full Name',
                   hintText: 'Enter Your Name',
                   controller: _nameController,
@@ -361,7 +362,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: _buildTextField(
+                child: buildTextField(
                   label: 'Mobile Number',
                   hintText: 'Enter Your Mobile Number',
                   controller: _phoneController,
@@ -387,7 +388,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           Row(
             children: [
               Expanded(
-                child: _buildTextField(
+                child: buildTextField(
                   label: 'Address',
                   hintText: 'Enter your address',
                   controller: _addressController,
@@ -403,7 +404,7 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: _buildTextField(
+                child: buildTextField(
                   label: 'Email Address',
                   hintText: 'Enter Your Email Address',
                   controller: _mailaddressController,
@@ -428,76 +429,6 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
           const SizedBox(height: 16),
         ],
       ),
-    );
-  }
-
-  Widget _buildTextField({
-    required String label,
-    required String hintText,
-    required TextEditingController controller,
-    TextInputType keyboardType = TextInputType.text,
-    int maxLines = 1,
-    String? Function(String?)? validator,
-  }) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          maxLength: label == "Mobile Number" ? 10 : null,
-          controller: controller,
-          keyboardType: keyboardType,
-          maxLines: maxLines,
-          validator: validator,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          decoration: InputDecoration(
-            hintStyle: TextStyle(
-              color: isDark
-                  ? const Color(0xFF888A8B)
-                  : const Color.fromARGB(255, 186, 190, 194),
-            ),
-            hintText: hintText,
-            filled: true,
-            fillColor: isDark
-                ? const Color(0xFF1a1c1d)
-                : const Color(0xFFF8F9FA),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: isDark
-                    ? const Color(0xFF454749)
-                    : const Color.fromARGB(255, 239, 245, 245),
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide(
-                color: isDark
-                    ? const Color(0xFF454749)
-                    : const Color.fromARGB(255, 212, 212, 211),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(color: Color(0xFF2A9D8F), width: 2),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
-            ),
-          ),
-        ),
-      ],
     );
   }
 

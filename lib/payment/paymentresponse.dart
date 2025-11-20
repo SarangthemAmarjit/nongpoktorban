@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:torbanticketing/controller/pagecon.dart';
 
 class PaymentResponsePage extends StatelessWidget {
   final PaymentStatus status;
@@ -35,6 +36,7 @@ class PaymentResponsePage extends StatelessWidget {
   }
 
   Widget _buildStatusCard(BuildContext context, StatusConfig config) {
+    Pagemanagementcontroller pngcon = Get.find<Pagemanagementcontroller>();
     return Container(
       constraints: const BoxConstraints(maxWidth: 400),
       decoration: BoxDecoration(
@@ -86,6 +88,7 @@ class PaymentResponsePage extends StatelessWidget {
           const SizedBox(height: 32),
           ElevatedButton.icon(
             onPressed: () {
+              pngcon.resetPage();
               Get.offAllNamed('/');
             },
             icon: const Icon(Icons.home, size: 20),

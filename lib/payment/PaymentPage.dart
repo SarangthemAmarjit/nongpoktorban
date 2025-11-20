@@ -8,6 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:torbanticketing/config/const.dart';
+import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/paymentcontroller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -45,6 +46,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
   @override
   Widget build(BuildContext context) {
     Paymentcontroller gcontroller = Get.find<Paymentcontroller>();
+    Managementcontroller mngcon = Get.put(Managementcontroller());
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 162, 207, 240),
       appBar: AppBar(
@@ -157,7 +159,7 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                                   <html>
                                                   <head>
                                                     <meta name="viewport" content="width=device-width, initial-scale=1">
-                                                    // <script src="https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
+                                                     <script src="https://psa.atomtech.in/staticdata/ots/js/atomcheckout.js"></script>
                                                     
                                                     <style>
                                                       body { margin: 0; padding: 0; width: 100%; height: 100%; }
@@ -368,10 +370,10 @@ class _PaymentFinalPageState extends State<PaymentFinalPage> {
                                     _closeWebView(
                                       callback: () async {
                                         await gcontroller.updatepaymentremark(
-                                          context: context,
-                                          processingfee: processingfee,
+                                          id: mngcon.payresModel!.id,
                                           amount: totalamount,
-                                          key: _keys,
+                                          regId: mngcon.registerModel!.id,
+
                                           transactionid: gcontroller.transacid,
                                           paymentmethod: paymentmethodname,
                                           status: transactionResult,

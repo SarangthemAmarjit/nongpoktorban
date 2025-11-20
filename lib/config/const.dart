@@ -2,11 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-String baseapi = "http://10.10.1.31:8081/api";
+String baseapi = "https://imphalsmartcity.in/api";
 
-const isofflinepay = true;
+const isofflinepay = false;
 const iskiosk = true;
 
+String generateReceiptNumber() {
+  return 'KNT${DateTime.now().millisecondsSinceEpoch.toString().substring(5)}';
+}
 
 const commonbluecolor = Color.fromARGB(255, 1, 45, 82);
 String generateRandomString(int length) {
@@ -32,4 +35,4 @@ Map<String, dynamic> paymentmethod = {
   "UP": "Unified Payment Interface",
 };
 
-bool isDebugmode = true;
+bool isDebugmode = false;

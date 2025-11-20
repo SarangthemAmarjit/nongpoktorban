@@ -9,15 +9,12 @@ import 'package:printing/printing.dart';
 import 'package:torbanticketing/config/const.dart';
 import 'package:torbanticketing/controller/managementcontroller.dart';
 import 'package:torbanticketing/controller/pagecon.dart';
+import 'package:torbanticketing/view/recieptpage.dart';
 
 import '../main.dart';
 
 class OfflineReceiptPage extends StatelessWidget {
   const OfflineReceiptPage({super.key});
-
-  String _generateReceiptNumber() {
-    return 'KNT${DateTime.now().millisecondsSinceEpoch.toString().substring(5)}';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +22,7 @@ class OfflineReceiptPage extends StatelessWidget {
     double mmToDp(double mm) => (mm / 25.4) * dpi; // DPI of screen
     final size = MediaQuery.of(context).size;
     final isLargeScreen = size.width > 800;
-    final receiptNo = _generateReceiptNumber();
+    final receiptNo = generateReceiptNumber();
     final now = DateTime.now();
     Managementcontroller managementcontroller =
         Get.find<Managementcontroller>();
@@ -39,130 +36,140 @@ class OfflineReceiptPage extends StatelessWidget {
             padding: EdgeInsets.all(isLargeScreen ? 48.0 : 24.0),
             child: Column(
               children: [
-                // Receipt Details
-                Container(
-                  padding: EdgeInsets.all(isLargeScreen ? 32 : 24),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey[300]!, width: 3),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.confirmation_number,
-                        size: isLargeScreen ? 50 : 40,
-                        color: const Color(0xFF4CAF50),
-                      ),
-                      SizedBox(height: isLargeScreen ? 16 : 12),
-                      Text(
-                        textAlign: TextAlign.center,
-                        'Kangla Nongpok Torban Park',
-                        style: TextStyle(
-                          fontSize: isLargeScreen ? 32 : 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'E - Ticket Receipt',
-                        style: TextStyle(
-                          fontSize: isLargeScreen ? 16 : 14,
-                          color: const Color(0xFF757575),
-                        ),
-                      ),
-                      SizedBox(height: isLargeScreen ? 32 : 24),
-
-                      if (isLargeScreen)
-                        _buildLargeScreenReceipt(
-                          receiptNo,
-                          now,
-                          managementcontroller,
-                        )
-                      else
-                        _buildMobileReceipt(
-                          receiptNo,
-                          now,
-                          managementcontroller,
-                        ),
-
-                      SizedBox(height: isLargeScreen ? 32 : 24),
+                !isofflinepay
+                    ? OnlineReceiptPage()
+                    :
+                      // Receipt Details
                       Container(
-                        padding: EdgeInsets.all(isLargeScreen ? 24 : 20),
+                        padding: EdgeInsets.all(isLargeScreen ? 32 : 24),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFE8F5E9), Color(0xFFE3F2FD)],
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.grey[300]!,
+                            width: 3,
                           ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Total Paid:',
-                              style: TextStyle(
-                                fontSize: isLargeScreen ? 24 : 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              '₹${managementcontroller.totalamount.toStringAsFixed(0)}',
-                              style: TextStyle(
-                                fontSize: isLargeScreen ? 36 : 28,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xFF4CAF50),
-                              ),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              blurRadius: 10,
+                              offset: const Offset(0, 5),
                             ),
                           ],
-                        ),
-                      ),
-                      SizedBox(height: isLargeScreen ? 32 : 24),
-                      Container(
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Colors.amber[50],
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.amber[200]!),
                         ),
                         child: Column(
                           children: [
                             Icon(
-                              Icons.info_outline,
-                              color: Colors.amber[800],
-                              size: isLargeScreen ? 32 : 24,
+                              Icons.confirmation_number,
+                              size: isLargeScreen ? 50 : 40,
+                              color: const Color(0xFF4CAF50),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: isLargeScreen ? 16 : 12),
                             Text(
-                              'Please show this receipt at the park entrance',
                               textAlign: TextAlign.center,
+                              'Kangla Nongpok Torban Park',
                               style: TextStyle(
-                                fontSize: isLargeScreen ? 16 : 14,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.amber[900],
+                                fontSize: isLargeScreen ? 32 : 24,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Thank you for visiting Kangla Nongpok Torban Park!',
-                              textAlign: TextAlign.center,
+                              'E - Ticket Receipt',
                               style: TextStyle(
-                                fontSize: isLargeScreen ? 14 : 12,
-                                color: Colors.grey[700],
+                                fontSize: isLargeScreen ? 16 : 14,
+                                color: const Color(0xFF757575),
+                              ),
+                            ),
+                            SizedBox(height: isLargeScreen ? 32 : 24),
+
+                            if (isLargeScreen)
+                              _buildLargeScreenReceipt(
+                                receiptNo,
+                                now,
+                                managementcontroller,
+                              )
+                            else
+                              _buildMobileReceipt(
+                                receiptNo,
+                                now,
+                                managementcontroller,
+                              ),
+
+                            SizedBox(height: isLargeScreen ? 32 : 24),
+                            Container(
+                              padding: EdgeInsets.all(isLargeScreen ? 24 : 20),
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFFE8F5E9),
+                                    Color(0xFFE3F2FD),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Total Paid:',
+                                    style: TextStyle(
+                                      fontSize: isLargeScreen ? 24 : 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    '₹${managementcontroller.totalamount.toStringAsFixed(0)}',
+                                    style: TextStyle(
+                                      fontSize: isLargeScreen ? 36 : 28,
+                                      fontWeight: FontWeight.bold,
+                                      color: const Color(0xFF4CAF50),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: isLargeScreen ? 32 : 24),
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.amber[50],
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(color: Colors.amber[200]!),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.info_outline,
+                                    color: Colors.amber[800],
+                                    size: isLargeScreen ? 32 : 24,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Please show this receipt at the park entrance',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: isLargeScreen ? 16 : 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.amber[900],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Thank you for visiting Kangla Nongpok Torban Park!',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: isLargeScreen ? 14 : 12,
+                                      color: Colors.grey[700],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
 
                 SizedBox(height: isLargeScreen ? 40 : 24),
 
@@ -215,7 +222,7 @@ class OfflineReceiptPage extends StatelessWidget {
                           size: isLargeScreen ? 24 : 20,
                         ),
                         label: Text(
-                          'Print',
+                          isofflinepay ? 'Print' : 'Print Ticket',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: isLargeScreen ? 18 : 16,
@@ -297,7 +304,7 @@ class OfflineReceiptPage extends StatelessWidget {
       await rootBundle.load("assets/fonts/NotoSans-Regular.ttf"),
     );
     final now = DateTime.now();
-    final receiptNo = _generateReceiptNumber();
+
     Managementcontroller managementcontroller =
         Get.find<Managementcontroller>();
     pdf.addPage(
@@ -328,7 +335,7 @@ class OfflineReceiptPage extends StatelessWidget {
               pw.SizedBox(height: 1),
               pw.Divider(thickness: 1),
               pw.SizedBox(height: 1),
-              _pdfRow('Receipt No:', receiptNo, ttf),
+              _pdfRow('Receipt No:', managementcontroller.transactionid, ttf),
               _pdfRow(
                 'Date:',
                 DateFormat('dd MMM yyyy, hh:mm a').format(now),
@@ -399,7 +406,7 @@ class OfflineReceiptPage extends StatelessWidget {
               pw.SizedBox(height: 3),
               pw.BarcodeWidget(
                 barcode: pw.Barcode.code128(),
-                data: receiptNo,
+                data: managementcontroller.transactionid,
                 width: 300,
 
                 height: 50,

@@ -12,10 +12,9 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:torbanticketing/controller/managementcontroller.dart';
-import 'package:torbanticketing/model/paymentresponse.dart';
+import 'package:torbanticketing/model/paymentresponsemodel.dart';
 import 'package:torbanticketing/payment/atom_pay_helper.dart';
 import 'package:torbanticketing/payment/paymentresponse.dart';
-import 'package:torbanticketing/payment/suc.dart';
 import 'package:torbanticketing/widget/receiptpermit.dart';
 
 class Paymentcontroller extends GetxController {
@@ -28,74 +27,29 @@ class Paymentcontroller extends GetxController {
   // merchant configuration data
   // PaymentConfig config = paymentconfigModel;
   // merchant configuration data
-  // final String login = "684703"; //"445842"; //mandatory
-  // final String password = "0e464700"; //mandatory
-  // final String prodid = 'ILP'; //mandatory
-  // final String requestHashKey = '750fa5f3c01f9a4b3e'; //mandatory
-  // final String responseHashKey = 'd5110c2964f4ae7bbd'; //mandatory
-  // final String requestEncryptionKey =
-  //     'C11CB813ACE571A313DBF397B8F8057E'; //mandatory
-  // final String responseDecryptionKey =
-  //     '789257B2A0EFA675273732B9E07747BD'; //mandatory
-  // // final String txnid =
-  // //     'test240223'; // mandatory // this should be unique each time
-  // final String clientcode = "01950075"; //mandatory
-  // final String txncurr = "INR"; //mandatory
-  // final String mccCode = "9399"; //mandatory
-  // final String merchType =
-  //     "R"; //mandatory// final String amount = "1.00"; //mandat
-  // final String mode = "live"; // change live for production
-
-  // // final String custFirstName = 'test'; //optional
-  // // final String custLastName = 'user'; //optional
-  // // final String mobile = '8888888888'; //optional
-  // // final String email = 'test@gmail.com'; //optional
-  // // final String address = 'mumbai'; //optional
-  // final String custacc = '639827'; //optional
-  // final String udf1 = "udf1"; //optional
-  // final String udf2 = "udf2"; //optional
-  // final String udf3 = "udf3"; //optional
-  // final String udf4 = "udf4"; //optional
-  // final String udf5 = "udf5"; //optional
-
-  // static const req_EncKey = 'C11CB813ACE571A313DBF397B8F8057E';
-  // static const req_Salt = 'C11CB813ACE571A313DBF397B8F8057E';
-  // static const res_DecKey = '789257B2A0EFA675273732B9E07747BD';
-  // static const res_Salt = '789257B2A0EFA675273732B9E07747BD';
-
-  // final String paymentDomainURL = "https://payment1.atomtech.in/ots/aipay/auth";
-  // // final String auth_API_url =
-  // //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
-
-  // final String returnUrl =
-  //     "https://payment.atomtech.in/mobilesdk/param"; //return url uat
-  ////////
-
-  // merchant configuration data
-  final String login = "317159"; //"445842"; //mandatory
-  final String password = 'Test@123'; //mandatory
-  final String prodid = 'NSE'; //mandatory
-  final String requestHashKey = 'KEY123657234'; //mandatory
-  final String responseHashKey = 'KEYRESP123657234'; //mandatory
+  final String login = "767208"; //"445842"; //mandatory
+  final String password = "b3ef3753"; //mandatory
+  final String prodid = 'IMPH'; //mandatory
+  final String requestHashKey = 'e7850c49cbde9838b2'; //mandatory
+  final String responseHashKey = 'accd35296d80164eae'; //mandatory
   final String requestEncryptionKey =
-      'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+      'FC57743B8252CB9488ED9EF2F342AE02'; //mandatory
   final String responseDecryptionKey =
-      '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+      '1CC10101245A4271B26A9D1A3C075E4C'; //mandatory
   // final String txnid =
   //     'test240223'; // mandatory // this should be unique each time
-  final String clientcode = "NAVIN"; //mandatory
+  final String clientcode = "01950075"; //mandatory
   final String txncurr = "INR"; //mandatory
-  final String mccCode = "5499"; //mandatory
-  final String merchType = "R"; //mandatory
-  // final String amount = "1.00"; //mandatory
+  final String mccCode = "9399"; //mandatory
+  final String merchType =
+      "R"; //mandatory// final String amount = "1.00"; //mandat
+  final String mode = "live"; // change live for production
 
-  final String mode = "uat"; // change live for production
-
-  final String custFirstName = 'test'; //optional
-  final String custLastName = 'user'; //optional
-  final String mobile = '8888888888'; //optional
-  final String email = 'test@gmail.com'; //optional
-  final String address = 'mumbai'; //optional
+  // final String custFirstName = 'test'; //optional
+  // final String custLastName = 'user'; //optional
+  // final String mobile = '8888888888'; //optional
+  // final String email = 'test@gmail.com'; //optional
+  // final String address = 'mumbai'; //optional
   final String custacc = '639827'; //optional
   final String udf1 = "udf1"; //optional
   final String udf2 = "udf2"; //optional
@@ -103,20 +57,65 @@ class Paymentcontroller extends GetxController {
   final String udf4 = "udf4"; //optional
   final String udf5 = "udf5"; //optional
 
-  static const req_EncKey = 'A4476C2062FFA58980DC8F79EB6A799E';
-  static const req_Salt = 'A4476C2062FFA58980DC8F79EB6A799E';
-  static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
-  static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
+  static const req_EncKey = 'FC57743B8252CB9488ED9EF2F342AE02';
+  static const req_Salt = 'FC57743B8252CB9488ED9EF2F342AE02';
+  static const res_DecKey = '1CC10101245A4271B26A9D1A3C075E4C';
+  static const res_Salt = '1CC10101245A4271B26A9D1A3C075E4C';
 
-  final String paymentd =
-      "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
-  final String paymentDomainURL =
-      "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
+  final String paymentDomainURL = "https://payment1.atomtech.in/ots/aipay/auth";
   // final String auth_API_url =
   //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
 
   final String returnUrl =
-      "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
+      "https://payment.atomtech.in/mobilesdk/param"; //return url uat
+  ////////
+
+  // merchant configuration data
+  // final String login = "317159"; //"445842"; //mandatory
+  // final String password = 'Test@123'; //mandatory
+  // final String prodid = 'NSE'; //mandatory
+  // final String requestHashKey = 'KEY123657234'; //mandatory
+  // final String responseHashKey = 'KEYRESP123657234'; //mandatory
+  // final String requestEncryptionKey =
+  //     'A4476C2062FFA58980DC8F79EB6A799E'; //mandatory
+  // final String responseDecryptionKey =
+  //     '75AEF0FA1B94B3C10D4F5B268F757F11'; //mandatory
+  // // final String txnid =
+  // //     'test240223'; // mandatory // this should be unique each time
+  // final String clientcode = "NAVIN"; //mandatory
+  // final String txncurr = "INR"; //mandatory
+  // final String mccCode = "5499"; //mandatory
+  // final String merchType = "R"; //mandatory
+  // // final String amount = "1.00"; //mandatory
+
+  // final String mode = "uat"; // change live for production
+
+  // final String custFirstName = 'test'; //optional
+  // final String custLastName = 'user'; //optional
+  // final String mobile = '8888888888'; //optional
+  // final String email = 'test@gmail.com'; //optional
+  // final String address = 'mumbai'; //optional
+  // final String custacc = '639827'; //optional
+  // final String udf1 = "udf1"; //optional
+  // final String udf2 = "udf2"; //optional
+  // final String udf3 = "udf3"; //optional
+  // final String udf4 = "udf4"; //optional
+  // final String udf5 = "udf5"; //optional
+
+  // static const req_EncKey = 'A4476C2062FFA58980DC8F79EB6A799E';
+  // static const req_Salt = 'A4476C2062FFA58980DC8F79EB6A799E';
+  // static const res_DecKey = '75AEF0FA1B94B3C10D4F5B268F757F11';
+  // static const res_Salt = '75AEF0FA1B94B3C10D4F5B268F757F11';
+
+  // final String paymentd =
+  //     "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
+  // final String paymentDomainURL =
+  //     "https://paynetzuat.atomtech.in/ots/aipay/auth"; // uat
+  // // final String auth_API_url =
+  // //     "https://payment1.atomtech.in/ots/aipay/auth"; // prod
+
+  // final String returnUrl =
+  //     "https://pgtest.atomtech.in/mobilesdk/param"; //return url uat
   // final String returnUrl =
   //     "https://payment.atomtech.in/mobilesdk/param"; ////return url production
 
@@ -322,7 +321,7 @@ class Paymentcontroller extends GetxController {
     required String address,
   }) async {
     _ispaymentprocessstarted = true;
-
+    update();
     gettransactionid(transId);
 
     String reqJsonData = _getJsonPayloadData(
@@ -479,26 +478,27 @@ class Paymentcontroller extends GetxController {
   }
 
   updatepaymentremark({
+    required int id,
     required String transactionid,
     required String status,
-    required GlobalKey key,
     required String amount,
-    required String processingfee,
+    required int regId,
+
     required String paymentmethod,
-    required BuildContext context,
+    // required BuildContext context,
   }) async {
     try {
       debugPrint("In payment amount : $amount");
-      Payment p = Payment(
-        paymentId: transactionid,
-        status: status,
-        processingfee: double.tryParse(processingfee) ?? 0,
-        deviceId: 1,
-        amount: double.tryParse(amount) ?? 100,
-        method: paymentmethod,
+      Addpaymentresponsemodel p = Addpaymentresponsemodel(
+        id: id,
+        regId: regId,
+        paymentStatus: status,
+        transactionId: transactionid,
+        totalAmount: amount,
+        paymentDate: DateTime.now(),
       );
       if (status == "SUCCESS") {
-        Get.to(PaymentSuccessPage());
+        Get.find<Managementcontroller>().setfinaldetails();
       } else {
         Get.to(
           PaymentResponsePage(
@@ -509,7 +509,7 @@ class Paymentcontroller extends GetxController {
         );
       }
 
-      // await Get.find<Managementcontroller>().addPayments(p, key, context);
+      await Get.find<Managementcontroller>().updatepayment(p);
     } catch (e) {
       _ispaymentinfosend = false;
       update();
