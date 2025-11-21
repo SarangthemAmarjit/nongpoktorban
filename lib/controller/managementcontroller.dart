@@ -11,6 +11,7 @@ import 'package:torbanticketing/model/pricemodel.dart';
 import 'package:torbanticketing/model/registermodel.dart';
 import 'package:torbanticketing/model/visitordetails.dart';
 import 'package:torbanticketing/payment/PaymentPage.dart';
+import 'package:torbanticketing/routes/app_routes.dart';
 import 'package:torbanticketing/view/offlineticket.dart';
 
 class Managementcontroller extends GetxController {
@@ -107,7 +108,7 @@ class Managementcontroller extends GetxController {
     if (isofflinepay) {
       registerUserforcounter(context);
     } else {
-      Get.to(() => OfflineReceiptPage());
+      Get.to(OfflineReceiptPage());
     }
   }
 
@@ -153,11 +154,11 @@ class Managementcontroller extends GetxController {
 
         addpaymentforoffline();
 
-        Get.to(() => OfflineReceiptPage());
+        Get.to(OfflineReceiptPage());
       } else {
         _isloading = false;
         update();
-        showErrorDialog(context,'Registration Failed');
+        showErrorDialog(context, 'Registration Failed');
         print(
           'Registration Failed (${response.statusCode}): ${response.reasonPhrase}',
         );
@@ -165,47 +166,44 @@ class Managementcontroller extends GetxController {
     } catch (e) {
       _isloading = false;
       update();
-      showErrorDialog(context,'Registration Failed');
+      showErrorDialog(context, 'Registration Failed');
       print('Exception: $e');
     }
   }
 
-void showErrorDialog(BuildContext context, String message) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Row(
-          children: [
-            Icon(Icons.error, color: Colors.red, size: 28),
-            SizedBox(width: 8),
-            Text("Failed"),
-          ],
-        ),
-        content: Text(
-          message,
-          style: TextStyle(fontSize: 16),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              "Retry",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
+  void showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Icon(Icons.error, color: Colors.red, size: 28),
+              SizedBox(width: 8),
+              Text("Failed"),
+            ],
+          ),
+          content: Text(message, style: TextStyle(fontSize: 16)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                "Retry",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
               ),
             ),
-          ),
-        ],
-      );
-    },
-  );
-}
+          ],
+        );
+      },
+    );
+  }
 
   void getticketprices() async {
     try {

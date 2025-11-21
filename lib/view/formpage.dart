@@ -221,6 +221,8 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
             Text(
               pagecontroller.currentPage == 1
                   ? 'Step ${pagecontroller.currentPage} of 2: Your Details'
+                  : isofflinepay
+                  ? 'Step ${pagecontroller.currentPage} of 2: Your Tickets'
                   : 'Step ${pagecontroller.currentPage} of 2: Your Payment',
               style: TextStyle(
                 fontSize: 16,
@@ -240,9 +242,11 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
-                  width:
-                      MediaQuery.of(context).size.width *
-                      (pagecontroller.currentPage == 2 ? 0.80 : 0.40),
+                  width: Responsive.isTablet(context)
+                      ? MediaQuery.of(context).size.width *
+                            (pagecontroller.currentPage == 2 ? 0.60 : 0.30)
+                      : MediaQuery.of(context).size.width *
+                            (pagecontroller.currentPage == 2 ? 0.80 : 0.40),
                   decoration: BoxDecoration(
                     color: const Color(0xFF2A9D8F),
                     borderRadius: BorderRadius.circular(20),

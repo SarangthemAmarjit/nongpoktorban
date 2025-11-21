@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:torbanticketing/config/responsive.dart';
-import 'package:torbanticketing/view/formpage.dart';
+import 'package:torbanticketing/routes/app_routes.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
@@ -157,7 +157,7 @@ class HomeContent extends StatelessWidget {
                     const SizedBox(height: 30),
                     ElevatedButton(
                       onPressed: () {
-                        Get.to(() => const TicketBookingScreen());
+                        Get.toNamed(AppRoutes.ticketbookingscreen);
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -193,7 +193,10 @@ class HomeContent extends StatelessWidget {
           // Quick Info Cards
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: Responsive.isMobile(context) ? 20 : 40,
+              horizontal:
+                  Responsive.isMobile(context) || Responsive.isTablet(context)
+                  ? 20
+                  : 40,
             ),
             child: _buildInfoSection(context),
           ),
